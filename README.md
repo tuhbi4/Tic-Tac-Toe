@@ -6,7 +6,7 @@ Console game "TicTacToe"
 
 ## Task description ##
 
-The game is a tic-tac-toe with a field `n` * `n`, where `n` is a natural odd number, `n> = 3.`
+The game is a tic-tac-toe with a field `n` * `n`, where `n` is a natural odd number, `n >= 3.`
 It is necessary to provide a menu to the user where he can choose a game with another player (on the same PC) or a game with a bot.
 And also a menu where the user chooses himself who walks first, or is chosen randomly.
 The user should also be able to choose what he will walk with: a `cross` or a `zero`.
@@ -27,7 +27,7 @@ Project at the stage of algorithm development
 
 ## Roadmap
 
-- [ ] [] [GetNeighbors](TicTacToe/Program.cs#L1)
+- [ ] [] [Program.cs](TicTacToe/Program.cs#L1)
 - [ ] []
 - [ ] []
 - [ ] []
