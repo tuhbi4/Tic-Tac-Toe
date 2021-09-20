@@ -24,20 +24,37 @@ namespace TicTacToe
         public static int RequestBoardSize()
         {
             Console.WriteLine("Please set the size of the field. The number must be positive and odd (mininum is: 3x3)");
-            var size = SizeValidation("size", 50);          
-            return size;
+            var boardSize = SizeValidation("size", 50);
+            return boardSize;
         }
 
         public static string RequestName(string defaultName)
         {
             string name;
-            Console.WriteLine($"{defaultName}, enter your name or leave the field blank:");
+            Console.WriteLine($"{defaultName}, enter your name or leave the field blank (press Enter):");
             name = Console.ReadLine();
             if (name.Length == 0)
             {
                 return defaultName;
             }
             return name;
+        }
+
+        public static void RequestPlayerSymbol(string playerOneName, out char playerOneSymbol, out char playerTwoSymbol)
+        {
+            Console.WriteLine($"{playerOneName} your symbol by default is \"X\". If you want change it to \"0\" enter any key below, otherwise leave the field blank (press Enter):");
+            if (Console.ReadLine().Length == 0)
+            {
+                Console.WriteLine($"Your symbol is \"X\".");
+                playerOneSymbol = 'X';
+                playerTwoSymbol = '0';
+            }
+            else
+            {
+                Console.WriteLine($"Your symbol is \"0\".");
+                playerOneSymbol = '0';
+                playerTwoSymbol = 'X';
+            }
         }
     }
 }
