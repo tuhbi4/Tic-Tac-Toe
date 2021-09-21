@@ -23,8 +23,8 @@ namespace TicTacToe
         /// Checks that the user has entered a valid number of <see cref="valueName"/> and converts the string representation of the number to its 32-bit signed integer equivalent.
         /// </summary>
         /// <param name="valueName">Name of the variable, the value of which needs to be checked.</param>
-        /// <param name="minValue">Minimum allowable value for the variable to be checked.</param>
-        /// <param name="maxValue">Maximum allowable value for the variable to be checked..</param>
+        /// <param name="minValue">The minimum allowable value for the variable to be checked.</param>
+        /// <param name="maxValue">The maximum allowable value for the variable to be checked..</param>
         /// <returns>32-bit signed integer equivalent to user input.</returns>
         public static int ValueOfVariableValidation(string valueName, int minValue, int maxValue)
         {
@@ -50,9 +50,9 @@ namespace TicTacToe
         /// <summary>
         /// Checks that the user has entered a valid number of <see cref="valueName"/> and converts the string representation of the number to its 32-bit signed integer equivalent.
         /// </summary>
-        /// <param name="valueName">Name of the variable, the value of which needs to be checked.</param>
-        /// <param name="minValue">Minimum allowable value for the variable to be checked.</param>
-        /// <param name="maxValue">Maximum allowable value for the variable to be checked..</param>
+        /// <param name="valueName">The name of the variable, the value of which needs to be checked.</param>
+        /// <param name="minValue">The minimum allowable value for the variable to be checked.</param>
+        /// <param name="maxValue">The maximum allowable value for the variable to be checked..</param>
         /// <returns>32-bit signed integer equivalent to user input.</returns>
         public static int ValueAndOddOfVariableValidation(string valueName, int minValue, int maxValue)
         {

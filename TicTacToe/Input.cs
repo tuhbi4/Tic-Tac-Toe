@@ -5,6 +5,10 @@ namespace TicTacToe
 {
     public static class Input
     {
+        /// <summary>
+        /// Provides the user with a choice of game mode.
+        /// </summary>
+        /// <returns>32-bit signed integer equivalent to user choise.</returns>
         public static int RequestGameMode()
         {
             int modeSelector;
@@ -21,13 +25,22 @@ namespace TicTacToe
             return modeSelector;
         }
 
+        /// <summary>
+        /// Provides the user with a choice of board size.
+        /// </summary>
+        /// <returns>32-bit signed integer equivalent to user choise.</returns>
         public static int RequestBoardSize()
         {
             Console.WriteLine("Please set the size of the field. The number must be positive and odd (mininum is: 3x3)");
-            var boardSize = SizeValidation("size", 50);
+            var boardSize = ValueOfVariableValidation("size", 3, 50);
             return boardSize;
         }
 
+        /// <summary>
+        /// Provides the user with a choice of board size.
+        /// </summary>
+        /// <param name="defaultName">The default name that will be returned if the user will reject input.</param>
+        /// <returns>32-bit signed integer equivalent to user choise.</returns>
         public static string RequestName(string defaultName)
         {
             string name;
@@ -40,6 +53,13 @@ namespace TicTacToe
             return name;
         }
 
+        /// <summary>
+        /// Provides the user with a choice of board size.
+        /// </summary>
+        /// <param name="playerOneName">The name of the player who will choose the character.</param>
+        /// <param name="playerOneSymbol">The default symbol for first player to be set if the user will reject input.</param>
+        /// <param name="playerTwoSymbol">The default name that will be returned if the user will reject input.</param>
+        /// <returns>32-bit signed integer equivalent to user choise.</returns>
         public static void RequestPlayerSymbol(string playerOneName, out string playerOneSymbol, out string playerTwoSymbol)
         {
             Console.WriteLine($"{playerOneName} your symbol by default is \"X\". If you want change it to \"0\" enter any key below, otherwise leave the field blank (press Enter):");
