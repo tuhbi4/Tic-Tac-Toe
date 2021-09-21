@@ -5,20 +5,20 @@ namespace TicTacToe
     public class Player
     {
         public string Name { get; }
-        public char Symbol { get; }
-        public int CountOfCombinationMade { get; private set; }
+        public string Symbol { get; }
+        public int CountOfCombinationsMade { get; private set; }
         public bool Winner { get; set; }
 
-        public Player(string name, char filler)
+        public Player(string name, string filler)
         {
             Name = name;
             Symbol = filler;
-            CountOfCombinationMade = 0;
+            CountOfCombinationsMade = 0;
         }
 
         public void IncrementCountOfCombinationMade()
         {
-            CountOfCombinationMade++;
+            CountOfCombinationsMade++;
         }
     }
 
@@ -28,7 +28,7 @@ namespace TicTacToe
         public int SecondDice { get; private set; }
         private static readonly Random diceRandomValue = new();
 
-        public Bot(string name, char symbol) : base(name, symbol)
+        public Bot(string name, string symbol) : base(name, symbol)
         {
             MakeTurn();
         }

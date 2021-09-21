@@ -40,20 +40,20 @@ namespace TicTacToe
             return name;
         }
 
-        public static void RequestPlayerSymbol(string playerOneName, out char playerOneSymbol, out char playerTwoSymbol)
+        public static void RequestPlayerSymbol(string playerOneName, out string playerOneSymbol, out string playerTwoSymbol)
         {
             Console.WriteLine($"{playerOneName} your symbol by default is \"X\". If you want change it to \"0\" enter any key below, otherwise leave the field blank (press Enter):");
             if (Console.ReadLine().Length == 0)
             {
                 Console.WriteLine($"Your symbol is \"X\".");
-                playerOneSymbol = 'X';
-                playerTwoSymbol = '0';
+                playerOneSymbol = " X ";
+                playerTwoSymbol = " 0 ";
             }
             else
             {
                 Console.WriteLine($"Your symbol is \"0\".");
-                playerOneSymbol = '0';
-                playerTwoSymbol = 'X';
+                playerTwoSymbol = " 0 ";
+                playerOneSymbol = " X ";
             }
         }
     }
