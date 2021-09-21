@@ -129,13 +129,16 @@ namespace TicTacToe
         /// </summary>
         private static void SetWinner()
         {
-            if (Players[0].CountOfCombinationsMade > Players[1].CountOfCombinationsMade)
+            if (Players[0].CountOfCombinationsMade != Players[1].CountOfCombinationsMade)
             {
-                Winner = Players[0].Name;
-            }
-            else
-            {
-                Winner = Players[1].Name;
+                if (Players[0].CountOfCombinationsMade > Players[1].CountOfCombinationsMade)
+                {
+                    Winner = Players[0].Name;
+                }
+                else
+                {
+                    Winner = Players[1].Name;
+                }
             }
         }
 
@@ -144,7 +147,21 @@ namespace TicTacToe
         /// </summary>
         private static void WhoWins()
         {
-            Console.WriteLine($"\n*****GAME OVER!*****\nCongratulations {Winner}, you wins!");
+            if (!(Winner is null))
+            {
+                Console.WriteLine($"\n*****GAME OVER!*****\nCongratulations {Winner}, you won!");
+            }
+            else
+            {
+                if (Players[0].CountOfCombinationsMade != 0)
+                {
+                    Console.WriteLine($"\n*****GAME OVER!*****\nIncredible, the players scored the same number of points! Draw!");
+                }
+                else
+                {
+                    Console.WriteLine($"\n*****GAME OVER!*****\nIncredible, the players failed to score! You are both losers!");
+                }
+            }
         }
     }
 }
