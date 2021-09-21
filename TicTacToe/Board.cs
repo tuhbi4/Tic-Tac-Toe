@@ -6,9 +6,9 @@ namespace TicTacToe
     {
         public int Cols { get; }
         public int Rows { get; }
-        private string Filler { get; }
         public int EmptyCellsCount { get; private set; }
-        public string[,] CurrentBoard { get; private set; }
+        private string Filler { get; }
+        public string[,] BoardMatrix { get; private set; }
 
         // TODO: try to organize the board as a field structure instead of just a matrix of strings
 
@@ -18,7 +18,7 @@ namespace TicTacToe
             Rows = size;
             Filler = "   ";
             EmptyCellsCount = size * size;
-            CurrentBoard = new string[size + 4, size + 4];
+            BoardMatrix = new string[size + 4, size + 4];
             FillInitiatedBoard();
         }
 
@@ -27,32 +27,32 @@ namespace TicTacToe
         /// </summary>
         private void FillInitiatedBoard()
         {
-            for (int rowIndex = 0; rowIndex < CurrentBoard.GetUpperBound(0); rowIndex++)
+            for (int rowIndex = 0; rowIndex < BoardMatrix.GetUpperBound(0); rowIndex++)
             {
-                for (int colIndex = 0; colIndex < CurrentBoard.GetUpperBound(1); colIndex++)
+                for (int colIndex = 0; colIndex < BoardMatrix.GetUpperBound(1); colIndex++)
                 {
-                    CurrentBoard[rowIndex, colIndex] = Filler;
-                    if (colIndex == 0 || colIndex == CurrentBoard.GetUpperBound(1) - 1)
+                    BoardMatrix[rowIndex, colIndex] = Filler;
+                    if (colIndex == 0 || colIndex == BoardMatrix.GetUpperBound(1) - 1)
                     {
-                        if (rowIndex <= 10) { CurrentBoard[rowIndex, colIndex] = $"|{rowIndex - 1}-|"; }
-                        else { CurrentBoard[rowIndex, colIndex] = $"|{rowIndex - 1}|"; }
+                        if (rowIndex <= 10) { BoardMatrix[rowIndex, colIndex] = $"|{rowIndex - 1}-|"; }
+                        else { BoardMatrix[rowIndex, colIndex] = $"|{rowIndex - 1}|"; }
                     }
-                    if (rowIndex == 0 || rowIndex == CurrentBoard.GetUpperBound(0) - 1)
+                    if (rowIndex == 0 || rowIndex == BoardMatrix.GetUpperBound(0) - 1)
                     {
-                        if (colIndex <= 10) { CurrentBoard[rowIndex, colIndex] = $"|{colIndex - 1}-|"; }
-                        else { CurrentBoard[rowIndex, colIndex] = $"|{colIndex - 1}|"; }
+                        if (colIndex <= 10) { BoardMatrix[rowIndex, colIndex] = $"|{colIndex - 1}-|"; }
+                        else { BoardMatrix[rowIndex, colIndex] = $"|{colIndex - 1}|"; }
                     }
-                    if (colIndex == 1 || colIndex == CurrentBoard.GetUpperBound(1) - 2)
+                    if (colIndex == 1 || colIndex == BoardMatrix.GetUpperBound(1) - 2)
                     {
-                        CurrentBoard[rowIndex, colIndex] = "|--|";
+                        BoardMatrix[rowIndex, colIndex] = "|--|";
                     }
-                    if (rowIndex == 1 || rowIndex == CurrentBoard.GetUpperBound(0) - 2)
+                    if (rowIndex == 1 || rowIndex == BoardMatrix.GetUpperBound(0) - 2)
                     {
-                        CurrentBoard[rowIndex, colIndex] = "|--|";
+                        BoardMatrix[rowIndex, colIndex] = "|--|";
                     }
-                    if ((rowIndex < 2 || rowIndex > CurrentBoard.GetUpperBound(0) - 3) && (colIndex < 2 || colIndex > CurrentBoard.GetUpperBound(1) - 3))
+                    if ((rowIndex < 2 || rowIndex > BoardMatrix.GetUpperBound(0) - 3) && (colIndex < 2 || colIndex > BoardMatrix.GetUpperBound(1) - 3))
                     {
-                        CurrentBoard[rowIndex, colIndex] = "|++|";
+                        BoardMatrix[rowIndex, colIndex] = "|++|";
                     }
                 }
             }
@@ -63,11 +63,11 @@ namespace TicTacToe
         /// </summary>
         public void DrawBoardInConsole()
         {
-            for (int rowIndex = 0; rowIndex < CurrentBoard.GetUpperBound(0) + 1; rowIndex++)
+            for (int rowIndex = 0; rowIndex < BoardMatrix.GetUpperBound(0) + 1; rowIndex++)
             {
-                for (int colIndex = 0; colIndex < CurrentBoard.GetUpperBound(1) + 1; colIndex++)
+                for (int colIndex = 0; colIndex < BoardMatrix.GetUpperBound(1) + 1; colIndex++)
                 {
-                    Console.Write(CurrentBoard[rowIndex, colIndex]);
+                    Console.Write(BoardMatrix[rowIndex, colIndex]);
                 }
                 Console.WriteLine();
             }
@@ -83,7 +83,7 @@ namespace TicTacToe
         {
             if (!IsAlreadyOccupied(coordinateX, coordinateY))
             {
-                CurrentBoard[coordinateX + 4, coordinateY + 4] = symbol; // TODO: needs to be adjusted depending on the width of the board border 
+                BoardMatrix[coordinateX + 4, coordinateY + 4] = symbol; // TODO: check if needs to be adjusted depending on the width of the board border 
             }// TODO: perhaps "else" is needed here
             EmptyCellsCount--;
             DrawBoardInConsole();
@@ -97,7 +97,7 @@ namespace TicTacToe
         /// <returns>32-bit signed integer equivalent to user input.</returns>
         private bool IsAlreadyOccupied(int coordinateX, int coordinateY)
         {
-            if (!CurrentBoard[coordinateX, coordinateY].Equals(Filler))
+            if (!BoardMatrix[coordinateX, coordinateY].Equals(Filler))
             {
                 return true;
             }
