@@ -32,7 +32,7 @@ namespace TicTacToe
         public static int RequestBoardSize()
         {
             Console.WriteLine("Please set the size of the field. The number must be positive and odd (mininum is: 3x3)");
-            var boardSize = ValueOfVariableValidation("board size", 3, 50);
+            var boardSize = ValueOfVariableValidation("board size", 3, 27); // 27 for 1280x1024, 43 for 1920x1080
             return boardSize;
         }
 
@@ -66,14 +66,14 @@ namespace TicTacToe
             if (Console.ReadLine().Length == 0)
             {
                 Console.WriteLine($"Your symbol is \"X\".");
-                playerOneSymbol = " X ";
-                playerTwoSymbol = " 0 ";
+                playerOneSymbol = "  X  ";
+                playerTwoSymbol = "  0  ";
             }
             else
             {
                 Console.WriteLine($"Your symbol is \"0\".");
-                playerTwoSymbol = " 0 ";
-                playerOneSymbol = " X ";
+                playerTwoSymbol = "  0  ";
+                playerOneSymbol = "  X  ";
             }
         }
     }
