@@ -89,21 +89,30 @@ namespace TicTacToe
                 {
                     Console.WriteLine($"\n{Players[playerNumber].Name}, your turn!");
                     int coordinateX, coordinateY;
-                    if (Players[playerNumber].GetType() == typeof(Player))
+                    bool isFieldFlaggedSuccessfully;
+                    do
                     {
-                        PlayerTurn(out coordinateX, out coordinateY);
+                        if (Players[playerNumber].GetType() == typeof(Player))
+                        {
+                            PlayerTurn(out coordinateX, out coordinateY);
+                        }
+                        else if (Players[playerNumber].GetType() == typeof(Bot))
+                        {
+                            ComputerTurn(playerNumber, out coordinateX, out coordinateY);
+                            Console.WriteLine($"\n{Players[playerNumber].Name} makes turn...");
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException();
+                        }
+                        var field = new Field(coordinateX, coordinateY);
+                        isFieldFlaggedSuccessfully = CurrentBoard.FlagTheField(field.X, field.Y, Players[playerNumber].Symbol);
+                        if (!isFieldFlaggedSuccessfully)
+                        {
+                            Console.WriteLine($"\nThe field [{field.X},{field.Y}] already flagged! You have to choose another.");
+                        }
                     }
-                    else if (Players[playerNumber].GetType() == typeof(Bot))
-                    {
-                        ComputerTurn(playerNumber, out coordinateX, out coordinateY);
-                        Console.WriteLine($"\n{Players[playerNumber].Name} makes turn...");
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException();
-                    }
-                    var field = new Field(coordinateX, coordinateY);
-                    CurrentBoard.FlagTheField(field.X, field.Y, Players[playerNumber].Symbol);
+                    while (!isFieldFlaggedSuccessfully);
                     IsNewCombinationAppeared();
                 }
             }
