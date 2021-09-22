@@ -30,7 +30,9 @@ namespace TicTacToe
         /// </summary>
         private static void PrintLogo()
         {
-            Console.WriteLine("THE TIC TAC TOE GAME"); // TODO: game logo
+            Console.WriteLine("          +------------------------------+\n          |\\* <><><><><><><><><><><><> */|\n          | +--------------------------+ |");
+            Console.WriteLine("          |*||------------------------||*| \n          + ||* THE TIC TAC TOE GAME *|| +\n           \\||------------------------||/");
+            Console.WriteLine("            +--------------------------+ ");
         }
 
         /// <summary>
