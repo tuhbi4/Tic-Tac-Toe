@@ -30,16 +30,17 @@ namespace TicTacToe
 
         public Bot(string name, string symbol) : base(name, symbol)
         {
-            MakeTurn();
         }
 
-        private void MakeTurn()
+        public void MakeTurn(int maxValue, out int coordinateX, out int coordinateY)
         {
-            FirstDice = diceRandomValue.Next(1, 6);
-            SecondDice = diceRandomValue.Next(1, 6);
+            FirstDice = diceRandomValue.Next(1, maxValue);
+            coordinateX = FirstDice;
+            SecondDice = diceRandomValue.Next(1, maxValue);
+            coordinateY = SecondDice;
             DrawTheDices();
         }
-        public void DrawTheDices()
+        private void DrawTheDices()
         {
             Console.WriteLine("Throwing the dices ...\n+-------+       +-------+\n|\\       \\     /       /|");
             Console.WriteLine($"| +-------+   +-------+ |\n| |       |   |       | | \n+ |   {FirstDice}   |   |   {SecondDice}   | +");

@@ -6,7 +6,7 @@ namespace TicTacToe
 {
     public class Game
     {
-        public string GameMode { get; }
+        public string GameMode { get; private set; }
         private readonly List<string> gameModes = new()
         {
             "Player Vs Player",
@@ -51,11 +51,11 @@ namespace TicTacToe
                 Console.WriteLine("Your opponent is Computer!");
                 if (Players[0].Symbol.Equals(playerOneSymbol))
                 {
-                    Players.Add(new("Computer", playerTwoSymbol));
+                    Players.Add(new Bot("Computer", playerTwoSymbol));
                 }
                 else
                 {
-                    Players.Add(new("Computer", playerOneSymbol));
+                    Players.Add(new Bot("Computer", playerOneSymbol));
                 }
             }
         }
@@ -80,18 +80,52 @@ namespace TicTacToe
         /// <summary>
         /// Makes a turn request for each player.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when type of player is invalid.</exception>
         private static void NextTurn()
         {
-            foreach (Player player in Players)
+            for (int playerNumber = 0; playerNumber < Players.Count; playerNumber++)
             {
                 if (!IsGameOver())
                 {
-                    Console.WriteLine($"\n{player.Name}, your turn!");
-                    var field = new Field(Validator.ValueOfVariableValidation("coordinate X", 1, CurrentBoard.Rows), Validator.ValueOfVariableValidation("coordinate Y", 1, CurrentBoard.Cols));
-                    CurrentBoard.FlagTheField(field.X, field.Y, player.Symbol);
+                    Console.WriteLine($"\n{Players[playerNumber].Name}, your turn!");
+                    int coordinateX, coordinateY;
+                    if (Players[playerNumber].GetType() == typeof(Player))
+                    {
+                        PlayerTurn(out coordinateX, out coordinateY);
+                    }
+                    else if (Players[playerNumber].GetType() == typeof(Bot))
+                    {
+                        ComputerTurn(playerNumber, out coordinateX, out coordinateY);
+                        Console.WriteLine($"\n{Players[playerNumber].Name} makes turn...");
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException();
+                    }
+                    var field = new Field(coordinateX, coordinateY);
+                    CurrentBoard.FlagTheField(field.X, field.Y, Players[playerNumber].Symbol);
                     IsNewCombinationAppeared();
                 }
             }
+        }
+
+        /// <summary>
+        /// Requests the coordinates of the field from the player.
+        /// </summary>
+        private static void PlayerTurn(out int coordinateX, out int coordinateY)
+        {
+            coordinateX = Validator.ValueOfVariableValidation("coordinate X", 1, CurrentBoard.Rows);
+            coordinateY = Validator.ValueOfVariableValidation("coordinate Y", 1, CurrentBoard.Cols);
+        }
+
+        /// <summary>
+        /// Requests the coordinates of a field from the computer.
+        /// </summary>
+        private static void ComputerTurn(int playerNumber, out int coordinateX, out int coordinateY)
+        {
+            ((Bot)Players[playerNumber]).MakeTurn(CurrentBoard.Rows, out int x, out int y);
+            coordinateX = x;
+            coordinateY = y;
         }
 
         /// <summary>
