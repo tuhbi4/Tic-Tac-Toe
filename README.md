@@ -28,10 +28,10 @@ Project at the stage of algorithm development
 ## Roadmap
 
 - [ ] [] [Program.cs](TicTacToe/Program.cs#L1)
-- [V] []
-- [ ] []
-- [ ] []
-- [ ] []
-- [ ] [request](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [merge requests](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [succeeds](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+- [_] []
+- [/] []
+- [*] []
+- [!] []
+- [.] [request](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
+- [,] [merge requests](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
+- [-] [succeeds](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
