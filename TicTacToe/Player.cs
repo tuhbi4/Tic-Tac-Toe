@@ -42,7 +42,7 @@ namespace TicTacToe
         }
         private void DrawTheDices()
         {
-            Console.WriteLine("Throwing the dices ...\n+-------+       +-------+\n|\\       \\     /       /|");
+            Console.WriteLine("Computer roll the dices ...\n+-------+       +-------+\n|\\       \\     /       /|");
             Console.WriteLine($"| +-------+   +-------+ |\n| |       |   |       | | \n+ |   {FirstDice}   |   |   {SecondDice}   | +");
             Console.WriteLine(" \\|       |   |       |/ \n  +-------+   +-------+  ");
         }

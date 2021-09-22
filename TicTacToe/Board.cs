@@ -93,6 +93,7 @@ namespace TicTacToe
         /// <param name="coordinateX">Board column number.</param>
         /// <param name="coordinateY">Board row number.</param>
         /// <param name="symbol">When this method returns, contains the 32-bit signed integer value equivalent of the number from user input.</param>
+        /// <returns>true if the field is occupied successfully, otherwise false.</returns>
         public bool FlagTheField(int coordinateX, int coordinateY, string symbol)
         {
             if (!IsAlreadyOccupied(coordinateX, coordinateY))
