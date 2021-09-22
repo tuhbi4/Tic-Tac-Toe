@@ -28,7 +28,7 @@ Project at the stage of algorithm development
 ## Roadmap
 
 - [ ] [] [Program.cs](TicTacToe/Program.cs#L1)
-- [ ] []
+- [V] []
 - [ ] []
 - [ ] []
 - [ ] []
