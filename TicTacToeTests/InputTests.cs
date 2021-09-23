@@ -18,7 +18,7 @@ namespace TicTacToe.Tests
         {
             var stringReader = new StringReader(str);
             Console.SetIn(stringReader);
-            int result = Input.RequestGameMode();
+            int result = InputValidator.RequestGameMode();
             return result;
         }
 
@@ -28,7 +28,7 @@ namespace TicTacToe.Tests
         {
             var stringReader = new StringReader(str);
             Console.SetIn(stringReader);
-            _ = Input.RequestGameMode();
+            _ = InputValidator.RequestGameMode();
             TextWriter tmpResult = Console.Out;
             string result = tmpResult.NewLine;
             return result;
