@@ -2,7 +2,7 @@
 
 namespace TicTacToe
 {
-    public static class Validator
+    public static class ValueValidator
     {
         /// <summary>
         /// Checks that the user entered a number, not a string, and converts the string representation of the number to its 32-bit signed integer equivalent.
@@ -17,10 +17,11 @@ namespace TicTacToe
                 return NumberValidation();
             }
             return number;
-        }        
+        }
 
         /// <summary>
-        /// Checks that the user has entered a valid number of <see cref="valueName"/> and converts the string representation of the number to its 32-bit signed integer equivalent.
+        /// Checks if the user has entered a valid <see cref="valueName"/> in the range from <see cref="minValue"/> to <see cref="maxValue"/>
+        /// and converts the string representation of the number to its 32-bit signed integer equivalent.
         /// </summary>
         /// <param name="valueName">Name of the variable, the value of which needs to be checked.</param>
         /// <param name="minValue">The minimum allowable value for the variable to be checked.</param>
@@ -48,8 +49,8 @@ namespace TicTacToe
         }
 
         /// <summary>
-        /// Checks that the user has entered a valid number of <see cref="valueName"/> and converts the string representation of the number to its 32-bit signed integer equivalent.
-        /// </summary>
+        /// Checks if the user has entered a valid odd <see cref="valueName"/> in the range from <see cref="minValue"/> to <see cref="maxValue"/>
+        /// and converts the string representation of the number to its 32-bit signed integer equivalent.
         /// <param name="valueName">The name of the variable, the value of which needs to be checked.</param>
         /// <param name="minValue">The minimum allowable value for the variable to be checked.</param>
         /// <param name="maxValue">The maximum allowable value for the variable to be checked..</param>
