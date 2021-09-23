@@ -1,9 +1,9 @@
 ﻿using System;
-using static TicTacToe.Validator;
+using static TicTacToe.ValueValidator;
 
 namespace TicTacToe
 {
-    public static class Input
+    public static class InputValidator
     {
         /// <summary>
         /// Provides the user with a choice of game mode.
@@ -32,7 +32,7 @@ namespace TicTacToe
         public static int RequestBoardSize()
         {
             Console.WriteLine("Please set the size of the field. The number must be positive and odd (mininum is: 3x3)");
-            var boardSize = ValueOfVariableValidation("board size", 3, 27); // 27 for 1280x1024, 43 for 1920x1080
+            var boardSize = ValueAndOddOfVariableValidation("board size", 3, 27); // 27 for 1280x1024, 43 for 1920x1080
             return boardSize;
         }
 
