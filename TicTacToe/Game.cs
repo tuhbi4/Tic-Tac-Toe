@@ -86,13 +86,13 @@ namespace TicTacToe
         /// </summary>
         public void StartGame()
         {
-            Console.WriteLine($"\nGame started!");
+            Console.WriteLine($"\n***** Game started! *****");
             var currentTurnNumber = 0;
             CurrentBoard.DrawBoardInConsole();
             while (!GameOver)
             {
                 currentTurnNumber++;
-                Console.WriteLine($"\nCurrent turn: {currentTurnNumber}.");
+                Console.WriteLine($"\n*** Current turn: {currentTurnNumber} ***");
                 NextTurn();
             }
             WhoWins();
@@ -108,7 +108,7 @@ namespace TicTacToe
             {
                 if (!IsGameOver())
                 {
-                    Console.WriteLine($"\n{Players[playerNumber].Name}, your turn!");
+                    Console.WriteLine($"\n{Players[playerNumber].Name}, now it's your turn!");
                     int coordinateX, coordinateY;
                     bool isFieldFlaggedSuccessfully;
                     do
@@ -204,17 +204,17 @@ namespace TicTacToe
         {
             if (!(Winner is null))
             {
-                Console.WriteLine($"\n*****GAME OVER!*****\nCongratulations {Winner}, you won!");
+                Console.WriteLine($"\n***** GAME OVER! *****\nCongratulations {Winner}, you won!");
             }
             else
             {
                 if (Players[0].CountOfCombinationsMade != 0)
                 {
-                    Console.WriteLine($"\n*****GAME OVER!*****\nIncredible, the players scored the same number of points! Draw!");
+                    Console.WriteLine($"\n***** GAME OVER! *****\nIncredible, the players scored the same number of points! Draw!");
                 }
                 else
                 {
-                    Console.WriteLine($"\n*****GAME OVER!*****\nIncredible, the players failed to score! You are both losers!");
+                    Console.WriteLine($"\n***** GAME OVER! *****\nIncredible, the players failed to score! You are both losers!");
                 }
             }
         }
