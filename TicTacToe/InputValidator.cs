@@ -31,7 +31,7 @@ namespace TicTacToe
         /// <returns>32-bit signed integer equivalent to user choise.</returns>
         public static int RequestBoardSize()
         {
-            Console.WriteLine("Please set the size of the field. The number must be positive and odd (mininum is: 3x3)");
+            Console.WriteLine("\nPlease set the size of the field. The number must be positive and odd (mininum is: 3x3)");
             var boardSize = ValueAndOddOfVariableValidation("board size", 3, 27); // 27 for 1280x1024, 43 for 1920x1080
             return boardSize;
         }

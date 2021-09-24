@@ -10,7 +10,6 @@ namespace TicTacToe
         public static int CountOfNewCombinationsAppeared(int coordinateX, int coordinateY, Board currentBoard)
         {
             Field searchedFor = currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1];
-            Console.WriteLine($"Search for [{coordinateX},{coordinateY}]...");
             var numberOfCombinationsFounded = 0;
             for (int y = searchedFor.Y - 1; y <= searchedFor.Y + 1; y++)
             {
@@ -21,7 +20,6 @@ namespace TicTacToe
                         && !(y == coordinateY && x == coordinateX)
                         && currentBoard.BoardMatrix[y + 1, x + 1].Filler == searchedFor.Filler)
                     {
-                        Console.WriteLine($"First neighbor is [{x},{y}]...");
                         if (y == coordinateY 
                             && !currentBoard.BoardMatrix[y + 1, x + 1].InHorizontalCombination
                             && !currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].InHorizontalCombination)
@@ -85,7 +83,6 @@ namespace TicTacToe
             currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInHorizontalCombination();
             currentBoard.BoardMatrix[y + 1, x + 1].SetInHorizontalCombination();
             currentBoard.BoardMatrix[y + 1, x - (coordinateX - x) + 1].SetInHorizontalCombination();
-            Console.WriteLine($"Second ahead horizontal neighbor is [{x - (coordinateX - x)},{y}]...");
             numberOfCombinationsFounded++;
             return numberOfCombinationsFounded;
         }
@@ -95,7 +92,6 @@ namespace TicTacToe
             currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInHorizontalCombination();
             currentBoard.BoardMatrix[y + 1, x + 1].SetInHorizontalCombination();
             currentBoard.BoardMatrix[y + 1, coordinateX + (coordinateX - x) + 1].SetInHorizontalCombination();
-            Console.WriteLine($"Second between horizontal neighbor is [{coordinateX + (coordinateX - x)},{y}]...");
             numberOfCombinationsFounded++;
             return numberOfCombinationsFounded;
         }
@@ -124,7 +120,6 @@ namespace TicTacToe
             currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInVerticalCombination();
             currentBoard.BoardMatrix[y + 1, x + 1].SetInVerticalCombination();
             currentBoard.BoardMatrix[y - (coordinateY - y) + 1, x + 1].SetInVerticalCombination();
-            Console.WriteLine($"Second between vertical neighbor is [{x},{y - (coordinateY - y)}]...");
             numberOfCombinationsFounded++;
             return numberOfCombinationsFounded;
         }
@@ -134,7 +129,6 @@ namespace TicTacToe
             currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInVerticalCombination();
             currentBoard.BoardMatrix[y + 1, x + 1].SetInVerticalCombination();
             currentBoard.BoardMatrix[coordinateY + (coordinateY - y) + 1, x + 1].SetInVerticalCombination();
-            Console.WriteLine($"Second between vertical neighbor is [{x},{coordinateY + (coordinateY - y)}]...");
             numberOfCombinationsFounded++;
             return numberOfCombinationsFounded;
         }
@@ -163,7 +157,6 @@ namespace TicTacToe
             currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInDiagonalCombination();
             currentBoard.BoardMatrix[y + 1, x + 1].SetInDiagonalCombination();
             currentBoard.BoardMatrix[y - (coordinateY - y) + 1, x - (coordinateX - x) + 1].SetInDiagonalCombination();
-            Console.WriteLine($"Second ahead diagonal neighbor is [{x - (coordinateX - x)},{y - (coordinateY - y)}]...");
             numberOfCombinationsFounded++;
             return numberOfCombinationsFounded;
         }
@@ -173,7 +166,6 @@ namespace TicTacToe
             currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInDiagonalCombination();
             currentBoard.BoardMatrix[y + 1, x + 1].SetInDiagonalCombination();
             currentBoard.BoardMatrix[coordinateY + (coordinateY - y) + 1, coordinateX + (coordinateX - x) + 1].SetInDiagonalCombination();
-            Console.WriteLine($"Second between diagonal neighbor is [{coordinateX + (coordinateX - x)},{coordinateY + (coordinateY - y)}]...");
             numberOfCombinationsFounded++;
             return numberOfCombinationsFounded;
         }

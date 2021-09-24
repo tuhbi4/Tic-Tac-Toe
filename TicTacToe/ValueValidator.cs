@@ -13,7 +13,7 @@ namespace TicTacToe
         {
             if (!int.TryParse(Console.ReadLine(), out int number))
             {
-                Console.WriteLine("This is not a number. Please enter the correct answer:");
+                Console.WriteLine("\nThis is not a number. Please enter the correct answer:");
                 return NumberValidation();
             }
             return number;
@@ -29,7 +29,7 @@ namespace TicTacToe
         /// <returns>32-bit signed integer equivalent to user input.</returns>
         public static int ValueOfVariableValidation(string valueName, int minValue, int maxValue)
         {
-            Console.WriteLine($"Set the {valueName}: (minimum is: {minValue}; maximum is {maxValue})");
+            Console.WriteLine($"\nSet the {valueName}: (minimum is: {minValue}; maximum is {maxValue})");
             while (true)
             {
                 var valueOut = NumberValidation();
@@ -58,7 +58,7 @@ namespace TicTacToe
         public static int ValueAndOddOfVariableValidation(string valueName, int minValue, int maxValue)
         {
 
-            Console.WriteLine($"Set the {valueName}: (minimum is: {minValue}; maximum is {maxValue})");
+            Console.WriteLine($"\nSet the {valueName}: (minimum is: {minValue}; maximum is {maxValue})");
             while (true)
             {
                 var valueOut = NumberValidation();

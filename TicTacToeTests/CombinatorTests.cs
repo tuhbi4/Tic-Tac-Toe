@@ -10,7 +10,7 @@ namespace TicTacToe.Tests
 {
     [TestFixture()]
     
-    public class CombinatorTests // currentBoard.BoardMatrix[rowIndex, colIndex] = new Field(colIndex - 1, rowIndex - 1, Filler)
+    public class CombinatorTests
     {
         [TestCase(3, 1, false, false, false, ExpectedResult = 1)]
         [TestCase(3, 1, true, false, false, ExpectedResult = 0)]

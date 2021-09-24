@@ -86,7 +86,7 @@ namespace TicTacToe
         /// </summary>
         public void StartGame()
         {
-            Console.WriteLine($"\n***** Game started! *****");
+            Console.WriteLine($"\n***** Game started! *****\n");
             var currentTurnNumber = 0;
             CurrentBoard.DrawBoardInConsole();
             while (!GameOver)
@@ -129,11 +129,18 @@ namespace TicTacToe
                         isFieldFlaggedSuccessfully = CurrentBoard.FlagTheField(coordinateX, coordinateY, Players[playerNumber].Symbol);
                         if (!isFieldFlaggedSuccessfully)
                         {
-                            Console.WriteLine($"\nThe field [{coordinateX},{coordinateY}] already flagged! You have to choose another.");
+                            Console.WriteLine($"\n*** The field [{coordinateX},{coordinateY}] already flagged! You have to choose another. ***");
                         }
                     }
                     while (!isFieldFlaggedSuccessfully);
+                    var currentCountOfCombinations = Players[playerNumber].CountOfCombinationsMade;
                     Players[playerNumber].IncreaseCountOfCombinationMade(CountOfNewCombinationsAppeared(coordinateX, coordinateY, CurrentBoard));
+                    if (Players[playerNumber].CountOfCombinationsMade > currentCountOfCombinations)
+                    {
+                        
+                        Console.WriteLine($"*** {Players[playerNumber].Name}, now you have {Players[playerNumber].CountOfCombinationsMade} points! ***");
+                    }
+
                 }
             }
         }
@@ -168,7 +175,7 @@ namespace TicTacToe
         {
             if (CurrentBoard.EmptyCellsCount == 0)
             {
-                Console.WriteLine("There are no more empty fields on the board...");
+                Console.WriteLine("*** There are no more empty fields on the board... ***");
                 GameOver = true;
                 SetWinner();
                 return true;
