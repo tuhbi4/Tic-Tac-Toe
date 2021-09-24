@@ -40,20 +40,27 @@ namespace TicTacToe
     /// <summary>
     /// Represents a simple bot with the following properties:
     /// 32-bit integer <see cref="FirstDice"/> and <see cref="SecondDice"/> that are represents a random value in a given range.
+    /// If <see cref="PrintingDicesEnabled"/> is true, dice will be printed every time a roll occurs.Enabled by default.
     /// Provides method to generate a new values.
     /// </summary>
     public class Bot : Player
     {
         public int FirstDice { get; private set; }
         public int SecondDice { get; private set; }
+        public bool PrintingDicesEnabled { get; private set; }
         private readonly Random diceRandomValue = new();
 
-        public Bot() : base (string.Empty, string.Empty)
+        public Bot() : this (string.Empty, string.Empty, true)
         {
         }
 
-        public Bot(string name, string symbol) : base(name, symbol)
+        public Bot(string name, string symbol) : this(name, symbol, true)
         {
+        }
+
+        public Bot(string name, string symbol, bool printingDicesEnabled) : base(name, symbol)
+        {
+            PrintingDicesEnabled = printingDicesEnabled;
         }
 
         /// <summary>
@@ -69,7 +76,10 @@ namespace TicTacToe
             coordinateX = FirstDice;
             SecondDice = diceRandomValue.Next(minValue, maxValue);
             coordinateY = SecondDice;
-            DrawTheDices(); // TODO: implement disabling dice printing when creating an instance of a type
+            if (PrintingDicesEnabled)
+            {
+                DrawTheDices();
+            }
         }
         private void DrawTheDices()
         {
@@ -86,7 +96,7 @@ namespace TicTacToe
     /// </summary>
     public class BotAI : Player
     {
-        public BotAI() : base(string.Empty, string.Empty)
+        public BotAI() : this(string.Empty, string.Empty)
         {
         }
 
