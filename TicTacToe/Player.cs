@@ -46,7 +46,7 @@ namespace TicTacToe
     {
         public int FirstDice { get; private set; }
         public int SecondDice { get; private set; }
-        private static readonly Random diceRandomValue = new();
+        private readonly Random diceRandomValue = new();
 
         public Bot() : base (string.Empty, string.Empty)
         {
@@ -69,7 +69,7 @@ namespace TicTacToe
             coordinateX = FirstDice;
             SecondDice = diceRandomValue.Next(minValue, maxValue);
             coordinateY = SecondDice;
-            DrawTheDices();
+            DrawTheDices(); // TODO: implement disabling dice printing when creating an instance of a type
         }
         private void DrawTheDices()
         {

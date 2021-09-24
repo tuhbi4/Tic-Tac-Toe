@@ -17,7 +17,7 @@ namespace TicTacToe
         public int Cols { get; }
         public int Rows { get; }
         public int EmptyCellsCount { get; private set; }
-        private string Filler { get; }
+        public string Filler { get; }
         public int BorderWidth { get; }
         public bool WithBorder { get; }
         public Field[,] BoardMatrix { get; private set; }
@@ -71,11 +71,11 @@ namespace TicTacToe
                         {
                             if (rowIndex <= 10)
                             {
-                                BoardMatrix[rowIndex, colIndex] = new Field($"|-{rowIndex - 1}-|");
+                                BoardMatrix[rowIndex, colIndex] = new Field(colIndex - 1, rowIndex - 1, $"|-{rowIndex - 1}-|");
                             }
                             else
                             {
-                                BoardMatrix[rowIndex, colIndex] = new Field($"|-{rowIndex - 1}|");
+                                BoardMatrix[rowIndex, colIndex] = new Field(colIndex - 1, rowIndex - 1, $"|-{rowIndex - 1}|");
                             }
                         }
                     }
@@ -83,16 +83,16 @@ namespace TicTacToe
                     {
                         if (colIndex <= 10)
                         {
-                            BoardMatrix[rowIndex, colIndex] = new Field($"|-{colIndex - 1}-|");
+                            BoardMatrix[rowIndex, colIndex] = new Field(colIndex - 1, rowIndex - 1, $"|-{colIndex - 1}-|");
                         }
                         else
                         {
-                            BoardMatrix[rowIndex, colIndex] = new Field($"|-{colIndex - 1}|");
+                            BoardMatrix[rowIndex, colIndex] = new Field(colIndex - 1, rowIndex - 1, $"|-{colIndex - 1}|");
                         }
                     }
                     else
                     {
-                        BoardMatrix[rowIndex, colIndex] = new Field(Filler);
+                        BoardMatrix[rowIndex, colIndex] = new Field(colIndex - 1, rowIndex - 1, Filler);
                     }
                     if ((colIndex == 1 || colIndex == BoardMatrix.GetUpperBound(0) - 1) || (rowIndex == 1 || rowIndex == BoardMatrix.GetUpperBound(1) - 1))
                     {
@@ -147,10 +147,8 @@ namespace TicTacToe
                 DrawBoardInConsole();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         /// <summary>
@@ -165,6 +163,7 @@ namespace TicTacToe
             {
                 return true;
             }
+
             return false;
         }
     }
