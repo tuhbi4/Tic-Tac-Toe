@@ -42,6 +42,15 @@
         }
 
         /// <summary>
+        /// Returns the instance of String.
+        /// </summary>
+        /// <returns><see cref="Filler"/></returns>
+        public override string ToString()
+        {
+            return Filler;
+        }
+
+        /// <summary>
         /// Provides a method to change the filler of а field.
         /// </summary>
         public void ChangeFiller(string filler)
@@ -50,12 +59,28 @@
         }
 
         /// <summary>
-        /// Returns the instance of String.
+        /// Set <see cref="InHorizontalCombination"/> property to state "true".
         /// </summary>
-        /// <returns><see cref="Filler"/></returns>
-        public override string ToString()
+        public void SetInHorizontalCombination()
         {
-            return Filler;
+            InHorizontalCombination = true;
         }
+
+        /// <summary>
+        /// Set <see cref="InVerticalCombination"/> property to state "true".
+        /// </summary>
+        public void SetInVerticalCombination()
+        {
+            InVerticalCombination = true;
+        }
+
+        /// <summary>
+        /// Set <see cref="InDiagonalCombination"/> property to state "true".
+        /// </summary>
+        public void SetInDiagonalCombination()
+        {
+            InDiagonalCombination = true;
+        }
+
     }
 }
