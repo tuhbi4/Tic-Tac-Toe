@@ -50,7 +50,7 @@ namespace TicTacToe
         public bool PrintingDicesEnabled { get; private set; }
         private readonly Random diceRandomValue = new();
 
-        public Bot() : this (string.Empty, string.Empty, true)
+        public Bot() : this(string.Empty, string.Empty, true)
         {
         }
 
@@ -72,9 +72,9 @@ namespace TicTacToe
         /// <param name="coordinateY">Output value for row number.</param>
         public void MakeTurn(int minValue, int maxValue, out int coordinateX, out int coordinateY)
         {
-            FirstDice = diceRandomValue.Next(minValue, maxValue);
+            FirstDice = diceRandomValue.Next(minValue, maxValue + 1);
             coordinateX = FirstDice;
-            SecondDice = diceRandomValue.Next(minValue, maxValue);
+            SecondDice = diceRandomValue.Next(minValue, maxValue + 1);
             coordinateY = SecondDice;
             if (PrintingDicesEnabled)
             {
