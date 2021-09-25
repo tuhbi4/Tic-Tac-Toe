@@ -6,7 +6,6 @@ namespace TicTacToe
     /// Represents a player with the following properties:
     /// string type properties <see cref="Name"/> and <see cref="Symbol"/>;
     /// 32-bit integer <see cref="CountOfCombinationsMade"/>, that always greater than or equal to zero;
-    /// boolean <see cref="Winner"/>.
     /// Provides a method to increment count of combinations maded.
     /// </summary>
     public class Player
@@ -14,7 +13,6 @@ namespace TicTacToe
         public string Name { get; }
         public string Symbol { get; }
         public int CountOfCombinationsMade { get; private set; }
-        public bool Winner { get; set; }
 
         public Player() : this(string.Empty, string.Empty)
         {
