@@ -9,7 +9,7 @@ Console game "TicTacToe"
 ![](https://img.shields.io/badge/algorithm%20completed-80%25-green)
 ![](https://img.shields.io/badge/documentation-90%25-brightgreen)
 ![](https://img.shields.io/badge/manual%20testing-success-yellow)
-![](https://img.shields.io/badge/coverage%20-5%25-critical)
+![](https://img.shields.io/badge/coverage%20-50%25-critical)
 ***
 
 ## Roadmap
@@ -25,7 +25,7 @@ Console game "TicTacToe"
 - [X] The move loop works successfully
 - [X] The fields are filled in successfully
 - [X] The state of the fields is monitored
-- [ ] Search for combinations is organized
+- [X] Search for combinations is organized
 - [ ] End of game conditions are checked
 - [X] The game ends successfully
 - [X] Manual testing
