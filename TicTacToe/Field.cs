@@ -7,7 +7,7 @@
     /// String <see cref="Filler"/> сontains filler, if given. Otherwise an empty string. 
     /// Boolean <see cref="InHorizontalCombination"/> true if the cell participates in a horizontal combination, false otherwise.
     /// Boolean <see cref="InVerticalCombination"/> true if the cell participates in a vertical combination, false otherwise.
-    /// Boolean <see cref="InDiagonalCombination"/> true if the cell participates in a dizgonal combination, false otherwise.
+    /// Boolean <see cref="InLeftDiagonalCombination"/> true if the cell participates in a dizgonal combination, false otherwise.
     /// Provides a method to increment count of combinations maded.
     /// </summary>
     public class Field
@@ -17,7 +17,8 @@
         public string Filler { get; private set; }
         public bool InHorizontalCombination { get; private set; }
         public bool InVerticalCombination { get; private set; }
-        public bool InDiagonalCombination { get; private set; }
+        public bool InLeftDiagonalCombination { get; private set; }
+        public bool InRightDiagonalCombination { get; private set; }
 
         public Field() : this(0, 0, string.Empty)
         {
@@ -38,7 +39,8 @@
             Filler = filler;
             InHorizontalCombination = false;
             InVerticalCombination = false;
-            InDiagonalCombination = false;
+            InLeftDiagonalCombination = false;
+            InRightDiagonalCombination = false;
         }
 
         /// <summary>
@@ -75,12 +77,19 @@
         }
 
         /// <summary>
-        /// Set <see cref="InDiagonalCombination"/> property to state "true".
+        /// Set <see cref="InLeftDiagonalCombination"/> property to state "true".
         /// </summary>
-        public void SetInDiagonalCombination()
+        public void SetInLeftDiagonalCombination()
         {
-            InDiagonalCombination = true;
+            InLeftDiagonalCombination = true;
         }
 
+        /// <summary>
+        /// Set <see cref="InDiagonalCombination"/> property to state "true".
+        /// </summary>
+        public void SetInRightDiagonalCombination()
+        {
+            InRightDiagonalCombination = true;
+        }
     }
 }
