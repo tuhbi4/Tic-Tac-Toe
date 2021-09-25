@@ -57,23 +57,21 @@ namespace TicTacToe
         /// Provides the user with a choice of board size.
         /// </summary>
         /// <param name="playerOneName">The name of the player who will choose the character.</param>
-        /// <param name="playerOneSymbol">The default symbol for first player to be set if the user will reject input.</param>
-        /// <param name="playerTwoSymbol">The default name that will be returned if the user will reject input.</param>
-        /// <returns>32-bit signed integer equivalent to user choise.</returns>
-        public static void RequestPlayerSymbol(string playerOneName, out string playerOneSymbol, out string playerTwoSymbol)
+        /// <param name="playerOneFigure">The default symbol for first player to be set if the user will reject input.</param>
+        /// <param name="playerTwoFigure">The default name that will be returned if the user will reject input.</param>
+        /// <returns>True if the player requested a figure change.</returns>
+        public static bool PlayerRequestFigureChange(string playerOneName, string playerOneFigure, string playerTwoFigure)
         {
-            Console.WriteLine($"{playerOneName} your symbol by default is \"X\". If you want change it to \"0\" enter any key below, otherwise leave the field blank (press Enter):");
+            Console.WriteLine($"{playerOneName} your symbol by default is \"{playerOneFigure}\". If you want change it to \"{playerTwoFigure}\" enter any key below, otherwise leave the field blank (press Enter):");
             if (Console.ReadLine().Length == 0)
             {
-                Console.WriteLine($"Your symbol is \"X\".");
-                playerOneSymbol = "  X  ";
-                playerTwoSymbol = "  0  ";
+                Console.WriteLine($"Your symbol is \"{playerOneFigure}\".");
+                return false;
             }
             else
             {
-                Console.WriteLine($"Your symbol is \"0\".");
-                playerTwoSymbol = "  0  ";
-                playerOneSymbol = "  X  ";
+                Console.WriteLine($"Your symbol is \"{playerTwoFigure}\".");
+                return true;
             }
         }
     }

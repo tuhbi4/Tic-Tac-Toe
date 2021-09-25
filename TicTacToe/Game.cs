@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using static TicTacToe.InputValidator;
 using static TicTacToe.Combinator;
+using static TicTacToe.UI;
 
 namespace TicTacToe
 {
@@ -31,52 +32,73 @@ namespace TicTacToe
             PlayerVsComputer
         };
         public GameModes GameMode { get; private set; }
+        public string EmptyFieldFigure { get; }
+        public string PlayerOneFigure { get; private set; }
+        public string PlayerTwoFigure { get; private set; }
         public string Winner { get; private set; }
         public bool GameOver { get; private set; }
         public Board CurrentBoard { get; private set; }
+
         public List<Player> Players { get; } = new() { };
 
-        public Game()
+        public Game(string emptyFieldFigure, string playerOneFigure, string playerTwoFigure)
+        {
+            if (emptyFieldFigure.Length != playerOneFigure.Length || emptyFieldFigure.Length != playerTwoFigure.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(emptyFieldFigure), "The length of all figures must be the same.");
+            }
+            if (emptyFieldFigure == playerOneFigure || emptyFieldFigure == playerTwoFigure || playerOneFigure == playerTwoFigure)
+            {
+                throw new ArgumentOutOfRangeException(nameof(emptyFieldFigure), "All figures must be different.");
+            }
+            else
+            {
+                EmptyFieldFigure = emptyFieldFigure;
+                PlayerOneFigure = playerOneFigure;
+                PlayerTwoFigure = playerTwoFigure;
+                InitializeGame(emptyFieldFigure);
+            }
+        }
+
+        /// <summary>
+        /// Initialize the game.
+        /// </summary>
+        private void InitializeGame(string emptyFieldFigure)
         {
             PrintLogo();
             GameMode = (GameModes)RequestGameMode();
             DefinePlayersList();
-            CurrentBoard = new Board(RequestBoardSize(), true);
+            CurrentBoard = new Board(RequestBoardSize(), emptyFieldFigure);
         }
 
         /// <summary>
-        /// Print game logo to console.
-        /// </summary>
-        private static void PrintLogo()
-        {
-            Console.WriteLine("          +------------------------------+\n          |\\* <><><><><><><><><><><><> */|\n          | +--------------------------+ |");
-            Console.WriteLine("          |*||------------------------||*| \n          + ||* THE TIC TAC TOE GAME *|| +\n           \\||------------------------||/");
-            Console.WriteLine("            +--------------------------+ ");
-        }
-
-        /// <summary>
-        /// Define a list of players (with names and symbols) depending on the game mode.
+        /// Define a list of players (with names and figures) depending on the game mode.
         /// </summary>
         private void DefinePlayersList()
         {
             var playerOneName = RequestName("Player 1");
-            RequestPlayerSymbol(playerOneName, out string playerOneSymbol, out string playerTwoSymbol);
-            Players.Add(new Player(playerOneName, playerOneSymbol));
+            if (PlayerRequestFigureChange(playerOneName, PlayerOneFigure, PlayerTwoFigure))
+            {
+                var temp = PlayerOneFigure;
+                PlayerOneFigure = PlayerTwoFigure;
+                PlayerTwoFigure = temp;
+            }
+            Players.Add(new Player(playerOneName, PlayerOneFigure));
             if (GameMode.Equals(GameModes.PlayerVsPlayer))
             {
                 var playerTwoName = RequestName("Player 2");
-                Players.Add(new Player(playerTwoName, playerTwoSymbol));
+                Players.Add(new Player(playerTwoName, PlayerTwoFigure));
             }
             else if (GameMode.Equals(GameModes.PlayerVsComputer))
             {
-                Console.WriteLine("Your opponent is Computer!");
-                if (Players[0].Symbol.Equals(playerOneSymbol))
+                MessageIfOpponentIsBot();
+                if (Players[0].Symbol.Equals(PlayerOneFigure))
                 {
-                    Players.Add(new Bot("Computer", playerTwoSymbol));
+                    Players.Add(new Bot("Computer", PlayerTwoFigure));
                 }
                 else
                 {
-                    Players.Add(new Bot("Computer", playerOneSymbol));
+                    Players.Add(new Bot("Computer", PlayerOneFigure));
                 }
             }
         }
@@ -86,14 +108,15 @@ namespace TicTacToe
         /// </summary>
         public void StartGame()
         {
-            Console.WriteLine($"\n***** Game started! *****\n");
+            MessageAboutGameStarted();
             var currentTurnNumber = 0;
-            CurrentBoard.DrawBoardInConsole();
+            DrawBoardInConsole(CurrentBoard, true);
             while (!GameOver)
             {
                 currentTurnNumber++;
-                Console.WriteLine($"\n*** Current turn: {currentTurnNumber} ***");
+                MessageAboutTurn(currentTurnNumber);
                 NextTurn();
+
             }
             WhoWins();
         }
@@ -108,7 +131,7 @@ namespace TicTacToe
             {
                 if (!IsGameOver())
                 {
-                    Console.WriteLine($"\n{Players[playerNumber].Name}, now it's your turn!");
+                    MessageWhoseTurn(Players[playerNumber].Name);
                     int coordinateX, coordinateY;
                     bool isFieldFlaggedSuccessfully;
                     do
@@ -120,7 +143,7 @@ namespace TicTacToe
                         else if (Players[playerNumber].GetType() == typeof(Bot))
                         {
                             ComputerTurn(playerNumber, out coordinateX, out coordinateY);
-                            Console.WriteLine($"\n{Players[playerNumber].Name} makes turn...");
+                            MessageBotMadeTurn(Players[playerNumber].Name);
                         }
                         else
                         {
@@ -129,16 +152,23 @@ namespace TicTacToe
                         isFieldFlaggedSuccessfully = CurrentBoard.FlagTheField(coordinateX, coordinateY, Players[playerNumber].Symbol);
                         if (!isFieldFlaggedSuccessfully)
                         {
-                            Console.WriteLine($"\n*** The field [{coordinateX},{coordinateY}] already flagged! You have to choose another. ***");
+                            MessageThatFieldAlreadyOccupied(coordinateX, coordinateY);
                         }
                     }
                     while (!isFieldFlaggedSuccessfully);
+                    DrawBoardInConsole(CurrentBoard, true);
                     var currentCountOfCombinations = Players[playerNumber].CountOfCombinationsMade;
-                    Players[playerNumber].IncreaseCountOfCombinationMade(CountOfNewCombinationsAppeared(coordinateX, coordinateY, CurrentBoard));
+                    Combinator combinator = new(coordinateX, coordinateY, CurrentBoard); // TODO:
+                    if (combinator.NumberOfCombinationsFounded > 0)
+                    {
+                        MessageNewCombinationsCount(combinator.NumberOfCombinationsFounded);
+
+                    }
+                    Players[playerNumber].IncreaseCountOfCombinationMade(combinator.NumberOfCombinationsFounded);
+                    SetFieldsDirections(combinator);
                     if (Players[playerNumber].CountOfCombinationsMade > currentCountOfCombinations)
                     {
-                        
-                        Console.WriteLine($"*** {Players[playerNumber].Name}, now you have {Players[playerNumber].CountOfCombinationsMade} points! ***");
+                        MessageAbountPlayerCombinations(Players[playerNumber].Name, Players[playerNumber].CountOfCombinationsMade);
                     }
 
                 }
@@ -175,7 +205,7 @@ namespace TicTacToe
         {
             if (CurrentBoard.EmptyCellsCount == 0)
             {
-                Console.WriteLine("*** There are no more empty fields on the board... ***");
+                MessageThatNoMoreFields();
                 GameOver = true;
                 SetWinner();
                 return true;
@@ -211,17 +241,44 @@ namespace TicTacToe
         {
             if (!(Winner is null))
             {
-                Console.WriteLine($"\n***** GAME OVER! *****\nCongratulations {Winner}, you won!");
+                MessageCongratsToPlayer(Winner);
             }
             else
             {
                 if (Players[0].CountOfCombinationsMade != 0)
                 {
-                    Console.WriteLine($"\n***** GAME OVER! *****\nIncredible, the players scored the same number of points! Draw!");
+                    MessageIsDraw();
                 }
                 else
                 {
-                    Console.WriteLine($"\n***** GAME OVER! *****\nIncredible, the players failed to score! You are both losers!");
+                    MessageNotScored();
+                }
+            }
+        }
+
+        /// <summary>
+        ///  Writes in the fields the direction of the combinations in which they are involved.
+        /// </summary>
+        /// <param name="combinator">An instance of the combinator from which information about the combinations will be obtained.</param>
+        private void SetFieldsDirections(Combinator combinator)
+        {
+            foreach ((Directions direction, Field neighbor) in combinator.Neighbors)
+            {
+                if (direction == Directions.InHorizontal)
+                {
+                    neighbor.SetInHorizontalCombination();
+                }
+                else if (direction == Directions.InVertical)
+                {
+                    neighbor.SetInVerticalCombination();
+                }
+                else if (direction == Directions.InLeftDiagonal)
+                {
+                    neighbor.SetInLeftDiagonalCombination();
+                }
+                else if (direction == Directions.InRightDiagonal)
+                {
+                    neighbor.SetInRightDiagonalCombination();
                 }
             }
         }

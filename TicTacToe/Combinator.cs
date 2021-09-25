@@ -1,173 +1,250 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TicTacToe
 {
-    public static class Combinator
+    public class Combinator
+
     {
+        private Board CurrentBoard { get; set; }
+        private Field SearchedFor { get; set; }
+        private Field FirstNeighbor { get; set; }
+        private Field SecondNeighbor { get; set; }
+        public int NumberOfCombinationsFounded { get; private set; }
+        public List<(Directions, Field)> Neighbors { get; private set; }
+        public enum Directions
+        {
+            InHorizontal,
+            InVertical,
+            InLeftDiagonal,
+            InRightDiagonal,
+        };
+
+        private readonly int maxX;
+        private readonly int maxY;
+        private bool alreadyFoundItInHorizontal;
+        private bool alreadyFoundItInVertical;
+        private bool alreadyFoundItInLeftDiagonal;
+        private bool alreadyFoundItInRightDiagonal;
+
+        public Combinator(int coordinateX, int coordinateY, Board currentBoard)
+        {
+            CurrentBoard = currentBoard;
+            Neighbors = new(3);
+            NumberOfCombinationsFounded = 0;
+            SearchedFor = currentBoard.BoardMatrix[coordinateY - 1, coordinateX - 1];
+            maxY = currentBoard.BoardMatrix.GetUpperBound(0) + 1;
+            maxX = currentBoard.BoardMatrix.GetUpperBound(1) + 1;
+            CountOfNewCombinationsAppeared();
+        }
+
         /// <summary>
         /// Checks if a new combinations has appeared.
         /// </summary>
-        public static int CountOfNewCombinationsAppeared(int coordinateX, int coordinateY, Board currentBoard)
+        private void CountOfNewCombinationsAppeared()
         {
-            Field searchedFor = currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1];
-            var numberOfCombinationsFounded = 0;
-            for (int y = searchedFor.Y - 1; y <= searchedFor.Y + 1; y++)
+
+            var minYForSearch = SearchedFor.Y - 1;
+            var maxYForSearch = SearchedFor.Y + 1;
+            var minXForSearch = SearchedFor.X - 1;
+            var maxXForSearch = SearchedFor.X + 1;
+
+            for (int firstPossibleNeighborY = minYForSearch; firstPossibleNeighborY <= maxYForSearch; firstPossibleNeighborY++)
             {
-                for (int x = searchedFor.X - 1; x <= searchedFor.X + 1; x++)
+                for (int firstPossibleNeighborX = minXForSearch; firstPossibleNeighborX <= maxXForSearch; firstPossibleNeighborX++)
                 {
-                    if (y >= 1 && y <= currentBoard.BoardMatrix.GetUpperBound(0) - currentBoard.BorderWidth - 1
-                        && x >= 1 && x <= currentBoard.BoardMatrix.GetUpperBound(1) - currentBoard.BorderWidth - 1
-                        && !(y == coordinateY && x == coordinateX)
-                        && currentBoard.BoardMatrix[y + 1, x + 1].Filler == searchedFor.Filler)
+
+                    if (firstPossibleNeighborY >= 1 && firstPossibleNeighborY <= CurrentBoard.BoardMatrix.GetUpperBound(0) + 1
+                        && firstPossibleNeighborX >= 1 && firstPossibleNeighborX <= CurrentBoard.BoardMatrix.GetUpperBound(1) + 1)
                     {
-                        if (y == coordinateY 
-                            && !currentBoard.BoardMatrix[y + 1, x + 1].InHorizontalCombination
-                            && !currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].InHorizontalCombination)
+                        var firstPossibleNeighbor = CurrentBoard.BoardMatrix[firstPossibleNeighborY - 1, firstPossibleNeighborX - 1];
+                        if (firstPossibleNeighbor != SearchedFor
+                        && firstPossibleNeighbor.Filler == SearchedFor.Filler)
                         {
-                            numberOfCombinationsFounded = SearchInHorizontalAxis(coordinateX, coordinateY, currentBoard, searchedFor, numberOfCombinationsFounded, y, x);
-                        }
-                        else if (x == coordinateX 
-                            && !currentBoard.BoardMatrix[y + 1, x + 1].InVerticalCombination
-                            && !currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].InVerticalCombination)
-                        {
-                            numberOfCombinationsFounded = SearchInVerticalAxis(coordinateX, coordinateY, currentBoard, searchedFor, numberOfCombinationsFounded, y, x);
-                        }
-                        else if (Math.Abs(y - coordinateY) == Math.Abs(x - coordinateX) 
-                            && !currentBoard.BoardMatrix[y + 1, x + 1].InDiagonalCombination
-                            && !currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].InDiagonalCombination)
-                        {
-                            numberOfCombinationsFounded = SearchInDiagonalAxis(coordinateX, coordinateY, currentBoard, searchedFor, numberOfCombinationsFounded, y, x);
+                            FirstNeighbor = firstPossibleNeighbor;
+                            if (firstPossibleNeighborY == SearchedFor.Y
+                                && !alreadyFoundItInHorizontal
+                                && !SearchedFor.InHorizontalCombination
+                                && !FirstNeighbor.InHorizontalCombination)
+                            {
+                                SearchInHorizontalAxis();
+                            }
+                            else if (firstPossibleNeighborX == SearchedFor.X
+                                && !alreadyFoundItInVertical
+                                && !SearchedFor.InVerticalCombination
+                                && !FirstNeighbor.InVerticalCombination)
+                            {
+                                SearchInVerticalAxis();
+                            }
+                            else if (firstPossibleNeighborY - SearchedFor.Y == firstPossibleNeighborX - SearchedFor.X
+                                && !alreadyFoundItInLeftDiagonal
+                                && !SearchedFor.InLeftDiagonalCombination
+                                && !FirstNeighbor.InLeftDiagonalCombination)
+                            {
+                                SearchInLeftDiagonalAxis();
+                            }
+                            else if (firstPossibleNeighborY - SearchedFor.Y == SearchedFor.X - firstPossibleNeighborX
+                                && !alreadyFoundItInRightDiagonal
+                                && !SearchedFor.InRightDiagonalCombination
+                                && !FirstNeighbor.InRightDiagonalCombination)
+                            {
+                                SearchInRightDiagonalAxis();
+                            }
                         }
                     }
                 }
             }
-
-            if (numberOfCombinationsFounded > 0)
-            {
-                if (numberOfCombinationsFounded == 1)
-                {
-                    Console.WriteLine($"\n*** {numberOfCombinationsFounded} new combination have been created! ***");
-                }
-                else
-                {
-                    Console.WriteLine($"\n*** {numberOfCombinationsFounded} new combinations have been created! ***");
-                }
-
-            }
-
-            return numberOfCombinationsFounded;
         }
 
         /// <summary>
         /// Search a new combinations in horizontal axis.
         /// </summary>
-        private static int SearchInHorizontalAxis(int coordinateX, int coordinateY, Board currentBoard, Field searchedFor, int numberOfCombinationsFounded, int y, int x)
+        private void SearchInHorizontalAxis()
         {
-            if (currentBoard.BoardMatrix[y + 1, x - (coordinateX - x) + 1].Filler == searchedFor.Filler
-                && !currentBoard.BoardMatrix[y + 1, x - (coordinateX - x) + 1].InHorizontalCombination)
+            var aheadFirstNeighborX = FirstNeighbor.X - (SearchedFor.X - FirstNeighbor.X);
+            var behindSearchedForX = SearchedFor.X + (SearchedFor.X - FirstNeighbor.X);
+            Field secondPossibleNeighborAhead = new();
+            if (1 <= aheadFirstNeighborX && aheadFirstNeighborX <= maxX)
             {
-                numberOfCombinationsFounded = HorizontalNeighborsAhead(coordinateX, coordinateY, currentBoard, numberOfCombinationsFounded, y, x);
+                secondPossibleNeighborAhead = CurrentBoard.BoardMatrix[FirstNeighbor.Y - 1, aheadFirstNeighborX - 1];
+            }
+            Field secondPossibleNeighborBehind = new();
+            if (1 <= behindSearchedForX && behindSearchedForX <= maxX)
+            {
+                secondPossibleNeighborBehind = CurrentBoard.BoardMatrix[FirstNeighbor.Y - 1, behindSearchedForX - 1];
             }
 
-            else if (currentBoard.BoardMatrix[y + 1, coordinateX + (coordinateX - x) + 1].Filler == searchedFor.Filler
-                && !currentBoard.BoardMatrix[y + 1, coordinateX + (coordinateX - x) + 1].InHorizontalCombination)
+            if (secondPossibleNeighborAhead.Filler == SearchedFor.Filler
+                && !secondPossibleNeighborAhead.InHorizontalCombination)
             {
-                numberOfCombinationsFounded = HorizontalBetweenNeighbors(coordinateX, coordinateY, currentBoard, numberOfCombinationsFounded, y, x);
+                alreadyFoundItInHorizontal = true;
+                AddCombinationToList(secondPossibleNeighborAhead, Directions.InHorizontal);
             }
-
-            return numberOfCombinationsFounded;
+            else if (secondPossibleNeighborBehind.Filler == SearchedFor.Filler
+                && !secondPossibleNeighborBehind.InHorizontalCombination)
+            {
+                alreadyFoundItInHorizontal = true;
+                AddCombinationToList(secondPossibleNeighborBehind, Directions.InHorizontal);
+            }
         }
 
-        private static int HorizontalNeighborsAhead(int coordinateX, int coordinateY, Board currentBoard, int numberOfCombinationsFounded, int y, int x)
-        {
-            currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInHorizontalCombination();
-            currentBoard.BoardMatrix[y + 1, x + 1].SetInHorizontalCombination();
-            currentBoard.BoardMatrix[y + 1, x - (coordinateX - x) + 1].SetInHorizontalCombination();
-            numberOfCombinationsFounded++;
-            return numberOfCombinationsFounded;
-        }
 
-        private static int HorizontalBetweenNeighbors(int coordinateX, int coordinateY, Board currentBoard, int numberOfCombinationsFounded, int y, int x)
-        {
-            currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInHorizontalCombination();
-            currentBoard.BoardMatrix[y + 1, x + 1].SetInHorizontalCombination();
-            currentBoard.BoardMatrix[y + 1, coordinateX + (coordinateX - x) + 1].SetInHorizontalCombination();
-            numberOfCombinationsFounded++;
-            return numberOfCombinationsFounded;
-        }
 
         /// <summary>
         /// Search a new combinations in vertical axis.
         /// </summary>
-        private static int SearchInVerticalAxis(int coordinateX, int coordinateY, Board currentBoard, Field searchedFor, int numberOfCombinationsFounded, int y, int x)
+        private void SearchInVerticalAxis()
         {
-            if (currentBoard.BoardMatrix[y - (coordinateY - y) + 1, x + 1].Filler == searchedFor.Filler
-                                            && !currentBoard.BoardMatrix[y - (coordinateY - y) + 1, x + 1].InVerticalCombination)
+            var aheadFirstNeighborY = FirstNeighbor.Y - (SearchedFor.Y - FirstNeighbor.Y);
+            var behindSearchedForY = SearchedFor.Y + (SearchedFor.Y - FirstNeighbor.Y);
+            Field secondPossibleNeighborAhead = new();
+            if (1 <= aheadFirstNeighborY && aheadFirstNeighborY <= maxY)
             {
-                numberOfCombinationsFounded = VerticalNeighborsAhead(coordinateX, coordinateY, currentBoard, numberOfCombinationsFounded, y, x);
+                secondPossibleNeighborAhead = CurrentBoard.BoardMatrix[aheadFirstNeighborY - 1, FirstNeighbor.X - 1];
             }
-            else if (currentBoard.BoardMatrix[coordinateY + (coordinateY - y) + 1, x + 1].Filler == searchedFor.Filler
-                && !currentBoard.BoardMatrix[coordinateY + (coordinateY - y) + 1, x + 1].InVerticalCombination)
+            Field secondPossibleNeighborBehind = new();
+            if (1 <= behindSearchedForY && behindSearchedForY <= maxY)
             {
-                numberOfCombinationsFounded = VerticalBetweenNeighbors(coordinateX, coordinateY, currentBoard, numberOfCombinationsFounded, y, x);
+                secondPossibleNeighborBehind = CurrentBoard.BoardMatrix[behindSearchedForY - 1, FirstNeighbor.X - 1];
             }
-
-            return numberOfCombinationsFounded;
-        }
-
-        private static int VerticalNeighborsAhead(int coordinateX, int coordinateY, Board currentBoard, int numberOfCombinationsFounded, int y, int x)
-        {
-            currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInVerticalCombination();
-            currentBoard.BoardMatrix[y + 1, x + 1].SetInVerticalCombination();
-            currentBoard.BoardMatrix[y - (coordinateY - y) + 1, x + 1].SetInVerticalCombination();
-            numberOfCombinationsFounded++;
-            return numberOfCombinationsFounded;
-        }
-
-        private static int VerticalBetweenNeighbors(int coordinateX, int coordinateY, Board currentBoard, int numberOfCombinationsFounded, int y, int x)
-        {
-            currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInVerticalCombination();
-            currentBoard.BoardMatrix[y + 1, x + 1].SetInVerticalCombination();
-            currentBoard.BoardMatrix[coordinateY + (coordinateY - y) + 1, x + 1].SetInVerticalCombination();
-            numberOfCombinationsFounded++;
-            return numberOfCombinationsFounded;
+            if (secondPossibleNeighborAhead.Filler == SearchedFor.Filler
+                && !secondPossibleNeighborAhead.InVerticalCombination)
+            {
+                alreadyFoundItInVertical = true;
+                AddCombinationToList(secondPossibleNeighborAhead, Directions.InVertical);
+            }
+            else if (secondPossibleNeighborBehind.Filler == SearchedFor.Filler
+                && !secondPossibleNeighborBehind.InVerticalCombination)
+            {
+                alreadyFoundItInVertical = true;
+                AddCombinationToList(secondPossibleNeighborBehind, Directions.InVertical);
+            }
         }
 
         /// <summary>
-        /// Search a new combinations in diagonal axis.
+        /// Search a new combinations in left diagonal axis.
         /// </summary>
-        private static int SearchInDiagonalAxis(int coordinateX, int coordinateY, Board currentBoard, Field searchedFor, int numberOfCombinationsFounded, int y, int x)
+        private void SearchInLeftDiagonalAxis()
         {
-            if (currentBoard.BoardMatrix[y - (coordinateY - y) + 1, x - (coordinateX - x) + 1].Filler == searchedFor.Filler
-                && !currentBoard.BoardMatrix[y - (coordinateY - y) + 1, x - (coordinateX - x) + 1].InDiagonalCombination)
+            var aheadFirstNeighborX = FirstNeighbor.X - (SearchedFor.X - FirstNeighbor.X);
+            var aheadFirstNeighborY = FirstNeighbor.Y - (SearchedFor.Y - FirstNeighbor.Y);
+            var behindSearchedForX = SearchedFor.X + (SearchedFor.X - FirstNeighbor.X);
+            var behindSearchedForY = SearchedFor.Y + (SearchedFor.Y - FirstNeighbor.Y);
+            Field secondPossibleNeighborAhead = new();
+            if (1 <= aheadFirstNeighborX && aheadFirstNeighborX <= maxX
+                && 1 <= aheadFirstNeighborY && aheadFirstNeighborY <= maxY)
             {
-                numberOfCombinationsFounded = DiagonalNeighborsAhead(coordinateX, coordinateY, currentBoard, numberOfCombinationsFounded, y, x);
+                secondPossibleNeighborAhead = CurrentBoard.BoardMatrix[aheadFirstNeighborY - 1, aheadFirstNeighborX - 1];
             }
-            else if (currentBoard.BoardMatrix[coordinateY + (coordinateY - y) + 1, coordinateX + (coordinateX - x) + 1].Filler == searchedFor.Filler
-                && !currentBoard.BoardMatrix[coordinateY + (coordinateY - y) + 1, coordinateX + (coordinateX - x) + 1].InDiagonalCombination)
+            Field secondPossibleNeighborBehind = new();
+            if (1 <= behindSearchedForX && behindSearchedForX <= maxX
+                && 1 <= behindSearchedForY && behindSearchedForY <= maxY)
             {
-                numberOfCombinationsFounded = DiagonalBetweenNeighbors(coordinateX, coordinateY, currentBoard, numberOfCombinationsFounded, y, x);
+                secondPossibleNeighborBehind = CurrentBoard.BoardMatrix[behindSearchedForY - 1, behindSearchedForX - 1];
             }
 
-            return numberOfCombinationsFounded;
+            if (secondPossibleNeighborAhead.Filler == SearchedFor.Filler
+                && !secondPossibleNeighborAhead.InLeftDiagonalCombination)
+            {
+                alreadyFoundItInLeftDiagonal = true;
+                AddCombinationToList(secondPossibleNeighborAhead, Directions.InLeftDiagonal);
+            }
+            else if (secondPossibleNeighborBehind.Filler == SearchedFor.Filler
+                && !secondPossibleNeighborBehind.InLeftDiagonalCombination)
+            {
+                alreadyFoundItInLeftDiagonal = true;
+                AddCombinationToList(secondPossibleNeighborBehind, Directions.InLeftDiagonal);
+            }
         }
 
-        private static int DiagonalNeighborsAhead(int coordinateX, int coordinateY, Board currentBoard, int numberOfCombinationsFounded, int y, int x)
+        /// <summary>
+        /// Search a new combinations in rght diagonal axis.
+        /// </summary>
+        private void SearchInRightDiagonalAxis()
         {
-            currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInDiagonalCombination();
-            currentBoard.BoardMatrix[y + 1, x + 1].SetInDiagonalCombination();
-            currentBoard.BoardMatrix[y - (coordinateY - y) + 1, x - (coordinateX - x) + 1].SetInDiagonalCombination();
-            numberOfCombinationsFounded++;
-            return numberOfCombinationsFounded;
+            var aheadFirstNeighborX = FirstNeighbor.X - (SearchedFor.X - FirstNeighbor.X);
+            var aheadFirstNeighborY = FirstNeighbor.Y - (SearchedFor.Y - FirstNeighbor.Y);
+            var behindSearchedForX = SearchedFor.X + (SearchedFor.X - FirstNeighbor.X);
+            var behindSearchedForY = SearchedFor.Y + (SearchedFor.Y - FirstNeighbor.Y);
+            Field secondPossibleNeighborAhead = new();
+            if (1 <= aheadFirstNeighborX && aheadFirstNeighborX <= maxX
+                && 1 <= aheadFirstNeighborY && aheadFirstNeighborY <= maxY)
+            {
+                secondPossibleNeighborAhead = CurrentBoard.BoardMatrix[aheadFirstNeighborY - 1, aheadFirstNeighborX - 1];
+            }
+            Field secondPossibleNeighborBehind = new();
+            if (1 <= behindSearchedForX && behindSearchedForX <= maxX
+                && 1 <= behindSearchedForY && behindSearchedForY <= maxY)
+            {
+                secondPossibleNeighborBehind = CurrentBoard.BoardMatrix[behindSearchedForY - 1, behindSearchedForX - 1];
+            }
+
+            if (secondPossibleNeighborAhead.Filler == SearchedFor.Filler
+                && !secondPossibleNeighborAhead.InRightDiagonalCombination)
+            {
+                alreadyFoundItInRightDiagonal = true;
+                AddCombinationToList(secondPossibleNeighborAhead, Directions.InRightDiagonal);
+            }
+            else if (secondPossibleNeighborBehind.Filler == SearchedFor.Filler
+                && !secondPossibleNeighborBehind.InRightDiagonalCombination)
+            {
+                alreadyFoundItInRightDiagonal = true;
+                AddCombinationToList(secondPossibleNeighborBehind, Directions.InRightDiagonal);
+            }
         }
 
-        private static int DiagonalBetweenNeighbors(int coordinateX, int coordinateY, Board currentBoard, int numberOfCombinationsFounded, int y, int x)
+        /// <summary>
+        /// Adds to the list the fields involved in a combination.
+        /// </summary>
+        /// <param name="secondPossibleNeighborAhead"></param>
+        private void AddCombinationToList(Field secondNeighbor, Directions direction)
         {
-            currentBoard.BoardMatrix[coordinateY + 1, coordinateX + 1].SetInDiagonalCombination();
-            currentBoard.BoardMatrix[y + 1, x + 1].SetInDiagonalCombination();
-            currentBoard.BoardMatrix[coordinateY + (coordinateY - y) + 1, coordinateX + (coordinateX - x) + 1].SetInDiagonalCombination();
-            numberOfCombinationsFounded++;
-            return numberOfCombinationsFounded;
+            SecondNeighbor = secondNeighbor;
+            Neighbors.Add((direction, SearchedFor));
+            Neighbors.Add((direction, FirstNeighbor));
+            Neighbors.Add((direction, SecondNeighbor));
+            NumberOfCombinationsFounded++;
         }
     }
 }
