@@ -101,7 +101,39 @@ namespace TicTacToe
         }
 
         /// <summary>
-        /// A message with congratulations to the player
+        /// A message that the player no longer has options for creating a combination.
+        /// </summary>
+        /// <param name="playerName">The name of player</param>
+        public static void MessageThatNoMoreCombinationsPossible(string playerName)
+        {
+            Console.WriteLine($"*** {playerName} no longer has options to create a combination. ***");
+        }
+
+
+        /// <summary>
+        /// A message that there is no chance of winning.
+        /// </summary>
+        /// <param name="playerName">The name of player</param>
+        public static void MessageThatNoChanseToWin(string playerName)
+        {
+            Console.WriteLine($"*** Sorry {playerName}, but you have no chance of winning... ***");
+        }
+
+        /// <summary>
+        /// A message with the results of the players.
+        /// </summary>
+        /// <param name="firstPlayerName">The name of the first player</param>
+        /// <param name="firstPlayerCombinationsCount">Number of points for the first player</param>
+        /// <param name="secondPlayerName">The name of the second player</param>
+        /// <param name="secondPlayerCombinationsCount">Number of points for the second player</param>
+        public static void MessageWithScores(string firstPlayerName, int firstPlayerCombinationsCount, string secondPlayerName, int secondPlayerCombinationsCount)
+        {
+            Console.WriteLine($"\n*** {firstPlayerName}, you earned {firstPlayerCombinationsCount} points!");
+            Console.WriteLine($"\n*** {secondPlayerName}, you earned {secondPlayerCombinationsCount} points!");
+        }
+
+        /// <summary>
+        /// A message with congratulations to the player.
         /// </summary>
         /// <param name="winnerName"></param>
         public static void MessageCongratsToPlayer(string winnerName)

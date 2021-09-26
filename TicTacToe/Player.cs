@@ -4,15 +4,16 @@ namespace TicTacToe
 {
     /// <summary>
     /// Represents a player with the following properties:
-    /// string type properties <see cref="Name"/> and <see cref="Symbol"/>;
+    /// string type properties <see cref="Name"/> and <see cref="Figure"/>;
     /// 32-bit integer <see cref="CountOfCombinationsMade"/>, that always greater than or equal to zero;
     /// Provides a method to increment count of combinations maded.
     /// </summary>
     public class Player
     {
         public string Name { get; }
-        public string Symbol { get; }
+        public string Figure { get; }
         public int CountOfCombinationsMade { get; private set; }
+        public int CountOfPossibleCombinations { get; private set; }
 
         public Player() : this(string.Empty, string.Empty)
         {
@@ -21,7 +22,7 @@ namespace TicTacToe
         public Player(string name, string symbol)
         {
             Name = name;
-            Symbol = symbol;
+            Figure = symbol;
             CountOfCombinationsMade = 0;
         }
 
@@ -32,6 +33,15 @@ namespace TicTacToe
         public void IncreaseCountOfCombinationMade(int count)
         {
             CountOfCombinationsMade += count;
+        }
+
+        /// <summary>
+        /// Increases the count of maded combinations.
+        /// </summary>
+        /// <param name="count">The number by which to increase the counter.</param>
+        public void IncreaseCountOfPossibleCombinations(int count)
+        {
+            CountOfPossibleCombinations = count;
         }
     }
 

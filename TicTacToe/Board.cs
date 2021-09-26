@@ -46,29 +46,9 @@ namespace TicTacToe
             {
                 for (int colIndex = 0; colIndex <= BoardMatrix.GetUpperBound(1); colIndex++)
                 {
-
                     BoardMatrix[rowIndex, colIndex] = new Field(colIndex + 1, rowIndex + 1, Filler);
                 }
             }
-        }
-
-        /// <summary>
-        /// Marks the specified field with the specified symbol.
-        /// </summary>
-        /// <param name="coordinateX">Board column number.</param>
-        /// <param name="coordinateY">Board row number.</param>
-        /// <param name="symbol">When this method returns, contains the 32-bit signed integer value equivalent of the number from user input.</param>
-        /// <returns>true if the field is occupied successfully, otherwise false.</returns>
-        public bool FlagTheField(int coordinateX, int coordinateY, string symbol)
-        {
-            if (FieldEmpty(coordinateX, coordinateY))
-            {
-                (BoardMatrix[coordinateY - 1, coordinateX - 1]).ChangeFiller(symbol);
-                EmptyCellsCount--;
-                return true;
-            }
-
-            return false;
         }
 
         /// <summary>
@@ -77,9 +57,34 @@ namespace TicTacToe
         /// <param name="coordinateX">Board column number.</param>
         /// <param name="coordinateY">Board row number.</param>
         /// <returns>32-bit signed integer equivalent to user input.</returns>
-        private bool FieldEmpty(int coordinateX, int coordinateY)
+        public bool IsFieldEmpty(int coordinateX, int coordinateY)
         {
             return BoardMatrix[coordinateY - 1, coordinateX - 1].Filler.Equals(Filler);
+        }
+
+        /// <summary>
+        /// Decreases the number of empty cells.
+        /// </summary>
+        public void DecreaceEmptyCellsCount()
+        {
+            EmptyCellsCount--;
+        }
+
+        /// <summary>
+        /// Creates a copy of the board.
+        /// </summary>
+        /// <returns>Returns a new board.</returns>
+        public Board CloneBoardMatrix()
+        {
+            Board newBoard = new(this.BoardMatrix.GetUpperBound(0) + 1, this.Filler);
+            for (var i = 0; i <= BoardMatrix.GetUpperBound(0); i++)
+            {
+                for (var j = 0; j <= BoardMatrix.GetUpperBound(0); j++)
+                {
+                    newBoard.BoardMatrix[i, j] = new(i + 1, j + 1, this.BoardMatrix[i, j].Filler);
+                }
+            }
+            return newBoard;
         }
     }
 }
