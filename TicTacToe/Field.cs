@@ -4,7 +4,7 @@
     /// Represents a field cell, with information about the coordinates to which it is associated and information about the combinations in which it participates.
     /// 32-bit integer <see cref="X"/> contains the value of the X coordinate to which this field is related; zero if the field has no relation to the coordinate.
     /// 32-bit integer <see cref="Y"/> contains the value of the Y coordinate to which this field is related; zero if the field has no relation to the coordinate.
-    /// String <see cref="Filler"/> сontains filler, if given. Otherwise an empty string. 
+    /// String <see cref="Filler"/> сontains filler, if given. Otherwise an empty string.
     /// Boolean <see cref="InHorizontalCombination"/> true if the cell participates in a horizontal combination, false otherwise.
     /// Boolean <see cref="InVerticalCombination"/> true if the cell participates in a vertical combination, false otherwise.
     /// Boolean <see cref="InLeftDiagonalCombination"/> true if the cell participates in a dizgonal combination, false otherwise.
@@ -31,7 +31,7 @@
         public Field(int coordinateX, int coordinateY) : this(coordinateX, coordinateY, string.Empty)
         {
         }
-        
+
         public Field(int coordinateX, int coordinateY, string filler)
         {
             X = coordinateX;

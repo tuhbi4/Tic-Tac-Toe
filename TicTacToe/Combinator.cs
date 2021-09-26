@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TicTacToe
 {
@@ -8,6 +6,7 @@ namespace TicTacToe
 
     {
         public List<(Directions, Field)> Neighbors { get; private set; }
+
         public enum Directions
         {
             InHorizontal,
@@ -50,7 +49,6 @@ namespace TicTacToe
             {
                 for (int firstPossibleNeighborX = minXForSearch; firstPossibleNeighborX <= maxXForSearch; firstPossibleNeighborX++)
                 {
-
                     if (firstPossibleNeighborY >= 1 && firstPossibleNeighborY <= currentBoard.BoardMatrix.GetUpperBound(0) + 1
                         && firstPossibleNeighborX >= 1 && firstPossibleNeighborX <= currentBoard.BoardMatrix.GetUpperBound(1) + 1)
                     {
@@ -125,8 +123,6 @@ namespace TicTacToe
                 AddCombinationToList(secondPossibleNeighborBehind, Directions.InHorizontal, searchFor, isSimulation);
             }
         }
-
-
 
         /// <summary>
         /// Search a new combinations in vertical axis.
@@ -252,6 +248,12 @@ namespace TicTacToe
             }
         }
 
+        /// <summary>
+        /// Simulates possible combinations for all empty fields for the current player for the current board.
+        /// </summary>
+        /// <param name="currentBoard">The board for simulating combinations.</param>
+        /// <param name="player">The player for simulating combinations.</param>
+        /// <returns>The number of possible combinations</returns>
         public int SimulationCombinationsForEmptyFields(Board currentBoard, Player player)
         {
             var simulationBoard = currentBoard.CloneBoardMatrix();
@@ -305,6 +307,5 @@ namespace TicTacToe
                 }
             }
         }
-
     }
 }

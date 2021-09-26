@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using static TicTacToe.InputValidator;
 using static TicTacToe.Combinator;
+using static TicTacToe.InputValidator;
 using static TicTacToe.UI;
 
 namespace TicTacToe
@@ -11,14 +11,14 @@ namespace TicTacToe
     /// The game is a tic-tac-toe with a field n * n, where n is a natural odd number, n >= 3.
     /// It is necessary to provide a menu to the user where he can choose a game with another player (on the same PC) or a game with a bot.
     /// And also a menu where the user chooses himself who walks first, or is chosen randomly. The user should also be able to choose what he will walk with: a cross or a zero.
-    /// 
+    ///
     /// First, the first player chooses a place on the field where he will put a cross(zero), after the second player(or bot) puts a zero(cross),
     /// and so on until the goal of the game is fulfilled.Goal of the game:
     /// score the largest number of combinations of three crosses / zeros(according to the rules of the game - diagonally, vertically and horizontally).
-    /// 
+    ///
     /// If there are no more options to make a combination, the game ends and displays the results of the game.
     /// After the participant reaches the number of combinations in which the opponent cannot get ahead of him, the game ends and displays the results of the game.
-    /// 
+    ///
     /// <see cref="GameMode"/> contains the game mode selected from enumeration <see cref="GameModes"/>.
     /// <see cref="Winner"/> contains the name of the winner
     /// <see cref="CurrentBoard"/> Board with parameters for the current game specified at the start.
@@ -31,6 +31,7 @@ namespace TicTacToe
             PlayerVsPlayer = 1,
             PlayerVsComputer
         };
+
         public GameModes GameMode { get; private set; }
         public string EmptyFieldFigure { get; }
         public string PlayerOneFigure { get; private set; }
@@ -118,7 +119,6 @@ namespace TicTacToe
                 currentTurnNumber++;
                 MessageAboutTurn(currentTurnNumber);
                 NextTurn();
-
             }
             while (!GameOver);
             WhoWins();
@@ -218,9 +218,9 @@ namespace TicTacToe
         /// <summary>
         /// Checks if the game is over.
         /// </summary>
-        /// <returns>true if no more empty fields on the board 
+        /// <returns>true if no more empty fields on the board
         /// or if one of the participants reaches the number of combinations in which the opponent cannot get ahead of him
-        /// or if there are no more options to make a combination; 
+        /// or if there are no more options to make a combination;
         /// otherwise, false</returns>
         private void CheckGameOver(Player player)
         {

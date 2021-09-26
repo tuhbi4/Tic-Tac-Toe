@@ -109,7 +109,6 @@ namespace TicTacToe
             Console.WriteLine($"*** {playerName} no longer has options to create a combination. ***");
         }
 
-
         /// <summary>
         /// A message that there is no chance of winning.
         /// </summary>

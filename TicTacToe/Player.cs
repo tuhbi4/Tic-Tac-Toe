@@ -89,6 +89,7 @@ namespace TicTacToe
                 DrawTheDices();
             }
         }
+
         private void DrawTheDices()
         {
             Console.WriteLine("Computer roll the dices ...\n+-------+       +-------+\n|\\       \\     /       /|");

@@ -1,15 +1,8 @@
 ﻿using NUnit.Framework;
-using TicTacToe;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TicTacToe.Tests
 {
     [TestFixture()]
-
     public class CombinatorTests
     {
         [TestCase(3, 1, false, false, false, ExpectedResult = 1)]
@@ -24,7 +17,6 @@ namespace TicTacToe.Tests
         [TestCase(2, 1, true, false, false, ExpectedResult = 0)]
         [TestCase(2, 1, false, false, true, ExpectedResult = 0)]
         [TestCase(2, 1, true, false, true, ExpectedResult = 0)]
-
         public int HorizontalTest_BothDirectionsAndBetween_WithLocked(int x, int y, bool firstLocked, bool secondLocked, bool thirdLocked)
         {
             var currentBoard = new Board(3);
@@ -130,7 +122,6 @@ namespace TicTacToe.Tests
         [TestCase(2, 2, true, false, false, ExpectedResult = 0)]
         [TestCase(2, 2, false, false, true, ExpectedResult = 0)]
         [TestCase(2, 2, true, false, true, ExpectedResult = 0)]
-
         public int DiagonalTest_FromTopRightToBottomLeftAndBack_WithLocked(int x, int y, bool firstLocked, bool secondLocked, bool thirdLocked)
         {
             var currentBoard = new Board(3);
@@ -155,7 +146,6 @@ namespace TicTacToe.Tests
         }
 
         [TestCase(1, 3, ExpectedResult = 0)]
-
         public int VerticalTest_SecondCombinationInARow_WithLocked(int x, int y)
         {
             var currentBoard = new Board(5);
@@ -174,7 +164,6 @@ namespace TicTacToe.Tests
         }
 
         [TestCase(3, 3, ExpectedResult = 2)]
-
         public int VerticalTestAndDiagonalTest_SecondCombinationInARowInBothDirections(int x, int y)
         {
             var currentBoard = new Board(5);
@@ -191,6 +180,5 @@ namespace TicTacToe.Tests
             int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
             return result;
         }
-
     }
 }

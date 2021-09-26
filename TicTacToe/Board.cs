@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace TicTacToe
+﻿namespace TicTacToe
 {
     /// <summary>
     /// Represents a set of instances of the type field in the form of a board of a given size with a specific cell content and controls the number of cells with this filler.
     /// 32-bit integer <see cref="Cols"/> contains the board width equivalent to the board size excluding the border width.
     /// 32-bit integer <see cref="Rows"/> contains the board height equivalent to the board size excluding the border width.
-    /// String <see cref="Filler"/> contains filler if given. Otherwise an empty string. 
+    /// String <see cref="Filler"/> contains filler if given. Otherwise an empty string.
     /// Boolean <see cref="InHorizontalCombination"/> true if the cell participates in a horizontal combination, false otherwise.
     /// Boolean <see cref="InVerticalCombination"/> true if the cell participates in a vertical combination, false otherwise.
     /// Boolean <see cref="InDiagonalCombination"/> true if the cell participates in a dizgonal combination, false otherwise.
@@ -23,6 +21,7 @@ namespace TicTacToe
         public Board() : this(3, string.Empty)
         {
         }
+
         public Board(int size) : this(size, string.Empty)
         {
         }

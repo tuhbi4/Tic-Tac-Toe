@@ -57,7 +57,6 @@ namespace TicTacToe
         /// <returns>32-bit signed integer equivalent to user input.</returns>
         public static int ValueAndOddOfVariableValidation(string valueName, int minValue, int maxValue)
         {
-
             Console.WriteLine($"\nSet the {valueName}: (minimum is: {minValue}; maximum is {maxValue})");
             while (true)
             {
