@@ -44,12 +44,11 @@ namespace TicTacToe
         public int GetCountOfNewCombinations(Board currentBoard, int coordinateX, int coordinateY, bool isSimulation)
         {
             var searchFor = currentBoard.BoardMatrix[coordinateY - 1, coordinateX - 1];
-            numberOfCombinationsFound = 0;
-            Neighbors = new();
             var minYForSearch = searchFor.Y - 1;
             var maxYForSearch = searchFor.Y + 1;
             var minXForSearch = searchFor.X - 1;
             var maxXForSearch = searchFor.X + 1;
+            ResetFields();
 
             for (int firstPossibleNeighborY = minYForSearch; firstPossibleNeighborY <= maxYForSearch; firstPossibleNeighborY++)
             {
@@ -264,20 +263,14 @@ namespace TicTacToe
         {
             var simulationBoard = currentBoard.CloneBoardMatrix();
             var countOfPossibleCombinations = 0;
-
+            ResetFields();
             for (var y = 1; y <= maxY; y++)
             {
                 for (var x = 1; x <= maxX; x++)
                 {
-                    alreadyFoundItInHorizontal = false;
-                    alreadyFoundItInVertical = false;
-                    alreadyFoundItInLeftDiagonal = false;
-                    alreadyFoundItInRightDiagonal = false;
-
                     if (simulationBoard.BoardMatrix[y - 1, x - 1].Filler == simulationBoard.Filler)
                     {
                         simulationBoard.BoardMatrix[y - 1, x - 1] = new(x, y, player.Figure);
-                        neighbors = new();
                         GetCountOfNewCombinations(simulationBoard, x, y, true);
                         countOfPossibleCombinations += neighbors.Count / 3;
                         SetFieldsDirections();
@@ -312,6 +305,19 @@ namespace TicTacToe
                     neighbor.SetInRightDiagonalCombination();
                 }
             }
+        }
+
+        private void ResetFields()
+        {
+            firstNeighbor = new();
+            alreadyFoundItInHorizontal = false;
+            alreadyFoundItInVertical = false;
+            alreadyFoundItInLeftDiagonal = false;
+            alreadyFoundItInRightDiagonal = false;
+            numberOfCombinationsFound = 0;
+            numberOfCombinationsFound = 0;
+            Neighbors = new();
+            neighbors = new();
         }
     }
 }

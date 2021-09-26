@@ -180,5 +180,55 @@ namespace TicTacToe.Tests
             int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
             return result;
         }
+
+        [TestCase(3, 2, ExpectedResult = 2)]
+        public int SpecialTest_WithLocked(int x, int y)
+        {
+            var currentBoard = new Board(5);
+            currentBoard.BoardMatrix[0, 0] = new Field(1, 1, "X");
+            currentBoard.BoardMatrix[0, 0].SetInVerticalCombination();
+            currentBoard.BoardMatrix[1, 0] = new Field(1, 2, "X");
+            currentBoard.BoardMatrix[1, 0].SetInVerticalCombination();
+            currentBoard.BoardMatrix[2, 0] = new Field(1, 3, "X");
+            currentBoard.BoardMatrix[2, 0].SetInVerticalCombination();
+            currentBoard.BoardMatrix[2, 0].SetInHorizontalCombination();
+            currentBoard.BoardMatrix[1, 1] = new Field(2, 2, "X");
+            currentBoard.BoardMatrix[1, 1].SetInVerticalCombination();
+            currentBoard.BoardMatrix[2, 1] = new Field(2, 3, "X");
+            currentBoard.BoardMatrix[2, 1].SetInVerticalCombination();
+            currentBoard.BoardMatrix[2, 1].SetInHorizontalCombination();
+            currentBoard.BoardMatrix[3, 1] = new Field(2, 4, "X");
+            currentBoard.BoardMatrix[3, 1].SetInVerticalCombination();
+            currentBoard.BoardMatrix[2, 2] = new Field(3, 3, "X");
+            currentBoard.BoardMatrix[2, 2].SetInHorizontalCombination();
+            currentBoard.BoardMatrix[3, 2] = new Field(3, 4, "X");
+            currentBoard.BoardMatrix[1, 2] = new Field(3, 2, "X");
+            Combinator combinator = new(currentBoard);
+            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            return result;
+        }
+
+        [TestCase(3, 3, ExpectedResult = 1)]
+        [TestCase(3, 3, ExpectedResult = 1)]
+        [TestCase(3, 3, ExpectedResult = 1)]
+        [TestCase(3, 3, ExpectedResult = 1)]
+        [TestCase(1, 1, ExpectedResult = 1)]
+        [TestCase(1, 1, ExpectedResult = 1)]
+        [TestCase(1, 1, ExpectedResult = 1)]
+        [TestCase(1, 1, ExpectedResult = 1)]
+        [TestCase(2, 2, ExpectedResult = 1)]
+        [TestCase(2, 2, ExpectedResult = 1)]
+        [TestCase(2, 2, ExpectedResult = 1)]
+        [TestCase(2, 2, ExpectedResult = 1)]
+        public int DiagonalTest_FromTopLeftToBottomRightAndBack(int x, int y)
+        {
+            var currentBoard = new Board(3);
+            currentBoard.BoardMatrix[0, 0] = new Field(1, 1, "X");
+            currentBoard.BoardMatrix[1, 1] = new Field(2, 2, "X");
+            currentBoard.BoardMatrix[2, 2] = new Field(3, 3, "X");
+            Combinator combinator = new(currentBoard);
+            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            return result;
+        }
     }
 }

@@ -230,10 +230,15 @@ namespace TicTacToe
                 GameOver = true;
                 SetWinner();
             }
-            else if (Players[0].CountOfCombinationsMade - Players[1].CountOfCombinationsMade > Players[0].CountOfPossibleCombinations
-                || Players[0].CountOfCombinationsMade - Players[1].CountOfCombinationsMade > Players[1].CountOfPossibleCombinations)
+            else if (Players[0].CountOfCombinationsMade - Players[1].CountOfCombinationsMade > Players[1].CountOfPossibleCombinations)
             {
-                MessageThatNoChanseToWin(player.Name);
+                MessageThatNoChanseToWin(Players[1].Name);
+                GameOver = true;
+                SetWinner();
+            }
+            else if (Players[1].CountOfCombinationsMade - Players[0].CountOfCombinationsMade > Players[0].CountOfPossibleCombinations)
+            {
+                MessageThatNoChanseToWin(Players[0].Name);
                 GameOver = true;
                 SetWinner();
             }
