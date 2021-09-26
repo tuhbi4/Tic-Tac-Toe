@@ -6,7 +6,7 @@ namespace TicTacToe
     {
         public static void Main()
         {
-            Game newGame = new(" ", "X", "0");
+            Game newGame = new();
             newGame.StartGame();
             Console.WriteLine("\nSend any character to start a new game or leave blank to exit:");
             if (Console.ReadLine().Length != 0)

@@ -41,6 +41,11 @@ namespace TicTacToe
         /// <summary>
         /// Checks if a new combinations has appeared.
         /// </summary>
+        /// <param name="currentBoard">Current board.</param>
+        /// <param name="coordinateX">The X coordinate of the searched field.</param>
+        /// <param name="coordinateY">The Y coordinate of the searched field.</param>
+        /// <param name="isSimulation">True if the method is called without making any changes to the game, otherwise false.</param>
+        /// <returns></returns>
         public int GetCountOfNewCombinations(Board currentBoard, int coordinateX, int coordinateY, bool isSimulation)
         {
             var searchFor = currentBoard.BoardMatrix[coordinateY - 1, coordinateX - 1];
@@ -100,6 +105,9 @@ namespace TicTacToe
         /// <summary>
         /// Search a new combinations in horizontal axis.
         /// </summary>
+        /// <param name="currentBoard">Current board.</param>
+        /// <param name="searchFor">The field that is the target of the search.</param>
+        /// <param name="isSimulation">True if the method is called without making any changes to the game, otherwise false.</param>
         private void SearchInHorizontalAxis(Board currentBoard, Field searchFor, bool isSimulation)
         {
             var aheadFirstNeighborX = firstNeighbor.X - (searchFor.X - firstNeighbor.X);
@@ -132,6 +140,9 @@ namespace TicTacToe
         /// <summary>
         /// Search a new combinations in vertical axis.
         /// </summary>
+        /// <param name="currentBoard">Current board.</param>
+        /// <param name="searchFor">The field that is the target of the search.</param>
+        /// <param name="isSimulation">True if the method is called without making any changes to the game, otherwise false.</param>
         private void SearchInVerticalAxis(Board currentBoard, Field searchFor, bool isSimulation)
         {
             var aheadFirstNeighborY = firstNeighbor.Y - (searchFor.Y - firstNeighbor.Y);
@@ -163,6 +174,9 @@ namespace TicTacToe
         /// <summary>
         /// Search a new combinations in left diagonal axis.
         /// </summary>
+        /// <param name="currentBoard">Current board.</param>
+        /// <param name="searchFor">The field that is the target of the search.</param>
+        /// <param name="isSimulation">True if the method is called without making any changes to the game, otherwise false.</param>
         private void SearchInLeftDiagonalAxis(Board currentBoard, Field searchFor, bool isSimulation)
         {
             var aheadFirstNeighborX = firstNeighbor.X - (searchFor.X - firstNeighbor.X);
@@ -199,6 +213,9 @@ namespace TicTacToe
         /// <summary>
         /// Search a new combinations in rght diagonal axis.
         /// </summary>
+        /// <param name="currentBoard">Current board.</param>
+        /// <param name="searchFor">The field that is the target of the search.</param>
+        /// <param name="isSimulation">True if the method is called without making any changes to the game, otherwise false.</param>
         private void SearchInRightDiagonalAxis(Board currentBoard, Field searchFor, bool isSimulation)
         {
             var aheadFirstNeighborX = firstNeighbor.X - (searchFor.X - firstNeighbor.X);
@@ -235,7 +252,10 @@ namespace TicTacToe
         /// <summary>
         /// Adds to the list the fields involved in a combination.
         /// </summary>
-        /// <param name="secondPossibleNeighbor"></param>
+        /// <param name="secondPossibleNeighbor">The field that is the second neighbor for the searched.</param>
+        /// <param name="direction">Value from enumeration list.</param>
+        /// <param name="searchFor">The field that is the target of the search.</param>
+        /// <param name="isSimulation">True if the method is called without making any changes to the game, otherwise false.</param>
         private void AddCombinationToList(Field secondPossibleNeighbor, Directions direction, Field searchFor, bool isSimulation)
         {
             if (isSimulation)
@@ -307,6 +327,9 @@ namespace TicTacToe
             }
         }
 
+        /// <summary>
+        /// Resets states of all fields.
+        /// </summary>
         private void ResetFields()
         {
             firstNeighbor = new();

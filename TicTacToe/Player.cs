@@ -5,7 +5,10 @@ namespace TicTacToe
     /// <summary>
     /// Represents a player with the following properties:
     /// string type properties <see cref="Name"/> and <see cref="Figure"/>;
-    /// 32-bit integer <see cref="CountOfCombinationsMade"/>, that always greater than or equal to zero;
+    /// 32-bit integer <see cref="CountOfCombinationsMade"/>, contains the number of combinations made by the player;
+    /// always greater than or equal to zero;
+    /// 32-bit integer <see cref="CountOfPossibleCombinations"/>, contains the number of combinations that a player can still make on the current board;
+    /// always greater than or equal to zero;
     /// Provides a method to increment count of combinations maded.
     /// </summary>
     public class Player

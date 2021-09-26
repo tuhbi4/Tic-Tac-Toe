@@ -7,7 +7,8 @@
     /// String <see cref="Filler"/> сontains filler, if given. Otherwise an empty string.
     /// Boolean <see cref="InHorizontalCombination"/> true if the cell participates in a horizontal combination, false otherwise.
     /// Boolean <see cref="InVerticalCombination"/> true if the cell participates in a vertical combination, false otherwise.
-    /// Boolean <see cref="InLeftDiagonalCombination"/> true if the cell participates in a dizgonal combination, false otherwise.
+    /// Boolean <see cref="InLeftDiagonalCombination"/> true if the cell participates in a left diagonal combination, false otherwise.
+    /// Boolean <see cref="InRightDiagonalCombination"/> true if the cell participates in a right diagonal combination, false otherwise.
     /// Provides a method to increment count of combinations maded.
     /// </summary>
     public class Field

@@ -20,8 +20,13 @@ namespace TicTacToe
     /// After the participant reaches the number of combinations in which the opponent cannot get ahead of him, the game ends and displays the results of the game.
     ///
     /// <see cref="GameMode"/> contains the game mode selected from enumeration <see cref="GameModes"/>.
-    /// <see cref="Winner"/> contains the name of the winner
+    /// string <see cref="EmptyFieldFigure"/> contains the figure for the board..
+    /// string <see cref="PlayerOneFigure"/> contains the figure of one from player.
+    /// string <see cref="PlayerTwoFigure"/> contains the figure of another player.
+    /// string <see cref="Winner"/> contains the name of the winner.
+    /// boolean <see cref="GameOver"/> true, if game is over, otherwise false.
     /// <see cref="CurrentBoard"/> Board with parameters for the current game specified at the start.
+    /// <see cref="Combinator"/> Instance of Combinator type, which makes combinations and simulates new.
     /// <see cref="Players"/> List of players for the current game specified at the start.
     /// </summary>
     public class Game
@@ -33,7 +38,7 @@ namespace TicTacToe
         };
 
         public GameModes GameMode { get; private set; }
-        public string EmptyFieldFigure { get; }
+        public string EmptyFieldFigure { get; private set; }
         public string PlayerOneFigure { get; private set; }
         public string PlayerTwoFigure { get; private set; }
         public string Winner { get; private set; }
@@ -42,6 +47,10 @@ namespace TicTacToe
         private Combinator Combinator { get; set; }
 
         public List<Player> Players { get; } = new() { };
+
+        public Game() : this(" ", "X", "0")
+        {
+        }
 
         public Game(string emptyFieldFigure, string playerOneFigure, string playerTwoFigure)
         {
