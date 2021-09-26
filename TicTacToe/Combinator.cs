@@ -2,6 +2,12 @@
 
 namespace TicTacToe
 {
+    /// <summary>
+    /// Represents a combinator for the given figures. Allows to search for matches and simulate possible.
+    /// <see cref="Neighbors"/> contains a list of fields that are included in the combinations found.
+    /// <see cref="Directions"/> enumeration of possible directions of combinations .
+    /// Provides methods for finding combinations of any player figures and simulating possible combinations for the entire board.
+    /// </summary>
     public class Combinator
 
     {
