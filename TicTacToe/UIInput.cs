@@ -3,7 +3,7 @@ using static TicTacToe.ValueValidator;
 
 namespace TicTacToe
 {
-    public static class InputValidator
+    public static class UIInput
     {
         /// <summary>
         /// Provides the user with a choice of game mode.

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using static TicTacToe.Combinator;
-using static TicTacToe.InputValidator;
-using static TicTacToe.UI;
+using static TicTacToe.UIInput;
+using static TicTacToe.UIOutput;
 
 namespace TicTacToe
 {

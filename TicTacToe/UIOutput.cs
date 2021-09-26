@@ -2,7 +2,7 @@
 
 namespace TicTacToe
 {
-    public static class UI
+    public static class UIOutput
     {
         /// <summary>
         /// Print game logo to console.

@@ -13,7 +13,7 @@ namespace TicTacToe.Tests
         {
             var stringReader = new StringReader(str);
             Console.SetIn(stringReader);
-            int result = InputValidator.RequestGameMode();
+            int result = UIInput.RequestGameMode();
             return result;
         }
     }
