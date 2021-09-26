@@ -48,27 +48,20 @@ namespace TicTacToe
     /// <summary>
     /// Represents a simple bot with the following properties:
     /// 32-bit integer <see cref="FirstDice"/> and <see cref="SecondDice"/> that are represents a random value in a given range.
-    /// If <see cref="PrintingDicesEnabled"/> is true, dice will be printed every time a roll occurs.Enabled by default.
     /// Provides method to generate a new values.
     /// </summary>
     public class Bot : Player
     {
         public int FirstDice { get; private set; }
         public int SecondDice { get; private set; }
-        public bool PrintingDicesEnabled { get; private set; }
         private readonly Random diceRandomValue = new();
 
-        public Bot() : this(string.Empty, string.Empty, true)
+        public Bot() : this(string.Empty, string.Empty)
         {
         }
 
-        public Bot(string name, string symbol) : this(name, symbol, true)
+        public Bot(string name, string symbol) : base(name, symbol)
         {
-        }
-
-        public Bot(string name, string symbol, bool printingDicesEnabled) : base(name, symbol)
-        {
-            PrintingDicesEnabled = printingDicesEnabled;
         }
 
         /// <summary>
@@ -84,17 +77,6 @@ namespace TicTacToe
             coordinateX = FirstDice;
             SecondDice = diceRandomValue.Next(minValue, maxValue + 1);
             coordinateY = SecondDice;
-            if (PrintingDicesEnabled)
-            {
-                DrawTheDices();
-            }
-        }
-
-        private void DrawTheDices()
-        {
-            Console.WriteLine("Computer roll the dices ...\n+-------+       +-------+\n|\\       \\     /       /|");
-            Console.WriteLine($"| +-------+   +-------+ |\n| |       |   |       | | \n+ |   {FirstDice}   |   |   {SecondDice}   | +");
-            Console.WriteLine(" \\|       |   |       |/ \n  +-------+   +-------+  ");
         }
     }
 

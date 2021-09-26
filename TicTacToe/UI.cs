@@ -15,6 +15,18 @@ namespace TicTacToe
         }
 
         /// <summary>
+        /// Prints the numbers from the dices.
+        /// </summary>
+        /// <param name="FirstDice">The number from the first dice.</param>
+        /// <param name="SecondDice">The number from the second dice.</param>
+        public static void DrawTheDices(int FirstDice, int SecondDice)
+        {
+            Console.WriteLine("Computer roll the dices ...\n+-------+       +-------+\n|\\       \\     /       /|");
+            Console.WriteLine($"| +-------+   +-------+ |\n| |       |   |       | | \n+ |   {FirstDice}   |   |   {SecondDice}   | +");
+            Console.WriteLine(" \\|       |   |       |/ \n  +-------+   +-------+  ");
+        }
+
+        /// <summary>
         /// A message that the opponent is a bot.
         /// </summary>
         public static void MessageIfOpponentIsBot()

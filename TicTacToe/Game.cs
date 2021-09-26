@@ -135,8 +135,6 @@ namespace TicTacToe
                 if (!GameOver)
                 {
                     MessageWhoseTurn(player.Name);
-                    var countOfPossibleCombinations = Combinator.SimulationCombinationsForEmptyFields(CurrentBoard, player);
-                    player.IncreaseCountOfPossibleCombinations(countOfPossibleCombinations);
                     FlagTheField(player, out int coordinateX, out int coordinateY);
                     DrawBoardInConsole(CurrentBoard, true);
                     var currentCountOfCombinations = player.CountOfCombinationsMade;
@@ -146,12 +144,13 @@ namespace TicTacToe
                         MessageNewCombinationsCount(numberOfCombinationsFounded);
                     }
                     player.IncreaseCountOfCombinationMade(numberOfCombinationsFounded);
-
                     SetFieldsDirections(Combinator);
                     if (player.CountOfCombinationsMade > currentCountOfCombinations)
                     {
                         MessageAbountPlayerCombinations(player.Name, player.CountOfCombinationsMade);
                     }
+                    var countOfPossibleCombinations = Combinator.SimulationCombinationsForEmptyFields(CurrentBoard, player);
+                    player.IncreaseCountOfPossibleCombinations(countOfPossibleCombinations);
                     CheckGameOver(player);
                 }
             }
@@ -172,6 +171,7 @@ namespace TicTacToe
         private void ComputerTurn(Player player, out int coordinateX, out int coordinateY)
         {
             ((Bot)player).MakeTurn(1, CurrentBoard.Rows, out int x, out int y);
+            DrawTheDices(((Bot)player).FirstDice, ((Bot)player).SecondDice);
             coordinateX = x;
             coordinateY = y;
         }
