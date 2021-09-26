@@ -6,9 +6,9 @@ Console game "TicTacToe"
 ## Project status
 
 ![](https://img.shields.io/badge/build-success-success)
-![](https://img.shields.io/badge/algorithm%20completed-80%25-green)
-![](https://img.shields.io/badge/documentation-90%25-brightgreen)
-![](https://img.shields.io/badge/manual%20testing-success-yellow)
+![](https://img.shields.io/badge/algorithm%20completed-99%25-brightgreen)
+![](https://img.shields.io/badge/documentation-99%25-brightgreen)
+![](https://img.shields.io/badge/manual%20testing-success-brightgreen)
 ![](https://img.shields.io/badge/coverage%20-50%25-critical)
 ***
 
@@ -26,15 +26,12 @@ Console game "TicTacToe"
 - [X] The fields are filled in successfully
 - [X] The state of the fields is monitored
 - [X] Search for combinations is organized
-- [ ] End of game conditions are checked
+- [X] End of game conditions are checked
 - [X] The game ends successfully
 - [X] Manual testing
-- [ ] Test coverage
+- [X] Test coverage
 - [X] Documentation
-- [ ] [request](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [merge requests](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [succeeds](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-[request](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
+- [ ] [merge requests]
 
 [:arrow_up_small:](#tic-tac-toe)
 
