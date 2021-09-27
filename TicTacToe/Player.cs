@@ -88,7 +88,7 @@ namespace TicTacToe
     /// 32-bit integer <see cref="FirstDice"/> and <see cref="SecondDice"/> that are represents a random value in a given range.
     /// Provides method to generate a new values.
     /// </summary>
-    public class BotAI : Player
+    public class BotAI : Bot
     {
         public BotAI() : this(string.Empty, string.Empty)
         {
@@ -103,9 +103,38 @@ namespace TicTacToe
         /// </summary>
         /// <param name="coordinateX">Output value for column number .</param>
         /// <param name="coordinateY">Output value for row number.</param>
-        public void MakeIntellectualTurn()
+        public void MakeIntellectualTurn(Board currentBoard, int minValue, int maxValue, out int coordinateX, out int coordinateY)
         {
-            throw new NotSupportedException(); // TODO: Will be implemented in the future
+            var x = 0;
+            var y = 0;
+
+            for (var i = 1; i <= currentBoard.EmptyCellsCount; i++)
+            {
+                MakeTurn(minValue, maxValue, out x, out y);
+                if (IsOwnFieldNear(currentBoard))
+                {
+                    break;
+                }
+            }
+            coordinateX = x;
+            coordinateY = y;
+        }
+
+        private bool IsOwnFieldNear(Board currentBoard)
+        {
+            var isOwnField = false;
+            for (var y = SecondDice - 1; y <= SecondDice + 1; y++)
+            {
+                for (var x = FirstDice - 1; x <= FirstDice + 1; x++)
+                {
+                    if (y >= 1 && y <= currentBoard.Rows
+                        && x >= 1 && x <= currentBoard.Cols)
+                    {
+                        isOwnField = currentBoard.BoardMatrix[y - 1, x - 1].Filler == this.Figure;
+                    }
+                }
+            }
+            return isOwnField;
         }
     }
 }
