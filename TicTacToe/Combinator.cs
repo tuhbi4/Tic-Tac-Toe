@@ -275,7 +275,7 @@ namespace TicTacToe
         }
 
         /// <summary>
-        /// Simulates possible combinations for all empty fields for the current player for the current board.
+        /// Simulates possible turns for the current board.
         /// </summary>
         /// <param name="currentBoard">The board for simulating combinations.</param>
         /// <param name="player">The player for simulating combinations.</param>
@@ -296,34 +296,42 @@ namespace TicTacToe
                 {
                     for (var x = 1; x <= maxX; x++)
                     {
-                        var nextSimulationBoard = simulationBoard.CloneBoard();
-                        if (nextSimulationBoard.BoardMatrix[y - 1, x - 1].Filler == nextSimulationBoard.Filler)
-                        {
-                            nextSimulationBoard.BoardMatrix[y - 1, x - 1] = new(x, y, player.Figure);
-                            GetNewCombinationsCount(nextSimulationBoard, x, y, true);
-                            SetFieldsDirections();
-                            if (bestPossibleCombinationsCount < neighbors.Count / 3)
-                            {
-                                bestPossibleCombinationsCount = neighbors.Count / 3;
-                                bestBoard = nextSimulationBoard.CloneBoard();
-                                IsBestBoardSaved = true;
-                            }
-                            else if (secondNeighbor.Filler == player.Figure && !IsBestBoardSaved)
-                            {
-                                bestBoard = nextSimulationBoard.CloneBoard();
-                                IsBestBoardSaved = true;
-                            }
-                            else if (firstNeighbor.Filler == player.Figure && !IsBestBoardSaved)
-                            {
-                                bestBoard = nextSimulationBoard.CloneBoard();
-                            }
-                        }
+                        SearchBestCombinationsCount(player, simulationBoard, ref bestBoard, ref bestPossibleCombinationsCount, ref IsBestBoardSaved, y, x);
                     }
                 }
                 possibleCombinationsCount += bestPossibleCombinationsCount;
                 simulationBoard = bestBoard;
             }
             return possibleCombinationsCount;
+        }
+
+        /// <summary>
+        /// Simulates possible combinations for all empty fields.
+        /// </summary>
+        private void SearchBestCombinationsCount(Player player, Board simulationBoard, ref Board bestBoard, ref int bestPossibleCombinationsCount, ref bool IsBestBoardSaved, int y, int x)
+        {
+            var nextSimulationBoard = simulationBoard.CloneBoard();
+            if (nextSimulationBoard.BoardMatrix[y - 1, x - 1].Filler == nextSimulationBoard.Filler)
+            {
+                nextSimulationBoard.BoardMatrix[y - 1, x - 1] = new(x, y, player.Figure);
+                GetNewCombinationsCount(nextSimulationBoard, x, y, true);
+                SetFieldsDirections();
+                if (bestPossibleCombinationsCount < neighbors.Count / 3)
+                {
+                    bestPossibleCombinationsCount = neighbors.Count / 3;
+                    bestBoard = nextSimulationBoard.CloneBoard();
+                    IsBestBoardSaved = true;
+                }
+                else if (secondNeighbor.Filler == player.Figure && !IsBestBoardSaved)
+                {
+                    bestBoard = nextSimulationBoard.CloneBoard();
+                    IsBestBoardSaved = true;
+                }
+                else if (firstNeighbor.Filler == player.Figure && !IsBestBoardSaved)
+                {
+                    bestBoard = nextSimulationBoard.CloneBoard();
+                }
+            }
         }
 
         /// <summary>
