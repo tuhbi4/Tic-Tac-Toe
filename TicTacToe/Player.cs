@@ -5,9 +5,9 @@ namespace TicTacToe
     /// <summary>
     /// Represents a player with the following properties:
     /// string type properties <see cref="Name"/> and <see cref="Figure"/>;
-    /// 32-bit integer <see cref="CountOfCombinationsMade"/>, contains the number of combinations made by the player;
+    /// 32-bit integer <see cref="CombinationsMadeCount"/>, contains the number of combinations made by the player;
     /// always greater than or equal to zero;
-    /// 32-bit integer <see cref="CountOfPossibleCombinations"/>, contains the number of combinations that a player can still make on the current board;
+    /// 32-bit integer <see cref="PossibleCombinationsCount"/>, contains the number of combinations that a player can still make on the current board;
     /// always greater than or equal to zero;
     /// Provides a method to increment count of combinations maded.
     /// </summary>
@@ -15,36 +15,49 @@ namespace TicTacToe
     {
         public string Name { get; }
         public string Figure { get; }
-        public int CountOfCombinationsMade { get; private set; }
-        public int CountOfPossibleCombinations { get; private set; }
+        public int CombinationsMadeCount { get; private set; }
+        public int PossibleCombinationsCount { get; private set; }
+        public int RemainingTurnsCount { get; private set; }
 
-        public Player() : this(string.Empty, string.Empty)
+        public Player() : this(string.Empty, string.Empty, 0)
         {
         }
 
-        public Player(string name, string symbol)
+        public Player(string name, string symbol, int remainingTurnsCount)
         {
             Name = name;
             Figure = symbol;
-            CountOfCombinationsMade = 0;
+            CombinationsMadeCount = 0;
+            RemainingTurnsCount = remainingTurnsCount;
         }
 
         /// <summary>
-        /// Increases the count of maded combinations.
+        /// Increases the count of combinations maded by player.
         /// </summary>
         /// <param name="count">The number by which to increase the counter.</param>
-        public void IncreaseCountOfCombinationMade(int count)
+        public void IncreaseCombinationMadeCount(int count)
         {
-            CountOfCombinationsMade += count;
+            CombinationsMadeCount += count;
         }
 
         /// <summary>
-        /// Increases the count of maded combinations.
+        /// Sets the number of possible combinations for the player.
         /// </summary>
-        /// <param name="count">The number by which to increase the counter.</param>
-        public void IncreaseCountOfPossibleCombinations(int count)
+        /// <param name="count">The number that will be set to the counter.</param>
+        public void SetPossibleCombinationsCount(int count)
         {
-            CountOfPossibleCombinations = count;
+            PossibleCombinationsCount = count;
+        }
+
+        /// <summary>
+        /// Decreases the count of remaining turns.
+        /// </summary>
+        public void DecreaseRemainingTurnsCount()
+        {
+            if (RemainingTurnsCount > 0)
+            {
+                RemainingTurnsCount--;
+            }
         }
     }
 
@@ -59,11 +72,11 @@ namespace TicTacToe
         public int SecondDice { get; private set; }
         private readonly Random diceRandomValue = new();
 
-        public Bot() : this(string.Empty, string.Empty)
+        public Bot() : this(string.Empty, string.Empty, 0)
         {
         }
 
-        public Bot(string name, string symbol) : base(name, symbol)
+        public Bot(string name, string symbol, int remainingTurnsCount) : base(name, symbol, remainingTurnsCount)
         {
         }
 
@@ -90,11 +103,11 @@ namespace TicTacToe
     /// </summary>
     public class BotAI : Player
     {
-        public BotAI() : this(string.Empty, string.Empty)
+        public BotAI() : this(string.Empty, string.Empty, 0)
         {
         }
 
-        public BotAI(string name, string symbol) : base(name, symbol)
+        public BotAI(string name, string symbol, int remainingTurnsCount) : base(name, symbol, remainingTurnsCount)
         {
         }
 

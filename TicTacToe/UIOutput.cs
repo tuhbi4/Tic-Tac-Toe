@@ -31,7 +31,7 @@ namespace TicTacToe
         /// </summary>
         public static void MessageIfOpponentIsBot()
         {
-            Console.WriteLine("Your opponent is Computer!");
+            Console.WriteLine("\nYour opponent is Computer!");
         }
 
         /// <summary>

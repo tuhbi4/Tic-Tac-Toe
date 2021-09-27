@@ -46,7 +46,7 @@ namespace TicTacToe
         /// <param name="coordinateY">The Y coordinate of the searched field.</param>
         /// <param name="isSimulation">True if the method is called without making any changes to the game, otherwise false.</param>
         /// <returns></returns>
-        public int GetCountOfNewCombinations(Board currentBoard, int coordinateX, int coordinateY, bool isSimulation)
+        public int GetNewCombinationsCount(Board currentBoard, int coordinateX, int coordinateY, bool isSimulation)
         {
             var searchFor = currentBoard.BoardMatrix[coordinateY - 1, coordinateX - 1];
             var minYForSearch = searchFor.Y - 1;
@@ -291,7 +291,7 @@ namespace TicTacToe
                     if (simulationBoard.BoardMatrix[y - 1, x - 1].Filler == simulationBoard.Filler)
                     {
                         simulationBoard.BoardMatrix[y - 1, x - 1] = new(x, y, player.Figure);
-                        GetCountOfNewCombinations(simulationBoard, x, y, true);
+                        GetNewCombinationsCount(simulationBoard, x, y, true);
                         countOfPossibleCombinations += neighbors.Count / 3;
                         SetFieldsDirections();
                     }

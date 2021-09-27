@@ -55,7 +55,7 @@ namespace TicTacToe
         /// <param name="minValue">The minimum allowable value for the variable to be checked.</param>
         /// <param name="maxValue">The maximum allowable value for the variable to be checked..</param>
         /// <returns>32-bit signed integer equivalent to user input.</returns>
-        public static int ValueAndOddOfVariableValidation(string valueName, int minValue, int maxValue)
+        public static int ValueAndOddVariableValidation(string valueName, int minValue, int maxValue)
         {
             Console.WriteLine($"\nSet the {valueName}: (minimum is: {minValue}; maximum is {maxValue})");
             while (true)
