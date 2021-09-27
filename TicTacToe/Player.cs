@@ -120,7 +120,6 @@ namespace TicTacToe
         {
             var x = 0;
             var y = 0;
-
             for (var i = 1; i <= currentBoard.EmptyCellsCount; i++)
             {
                 MakeTurn(minValue, maxValue, out x, out y);

@@ -235,10 +235,12 @@ namespace TicTacToe
             if (BotLevel.Equals(BotsLevels.Random))
             {
                 ((Bot)player).MakeTurn(1, CurrentBoard.Rows, out x, out y);
+                DrawTheDices(((Bot)player).FirstDice, ((Bot)player).SecondDice);
             }
             else if (BotLevel.Equals(BotsLevels.Thinking))
             {
-                DrawTheDices(((Bot)player).FirstDice, ((Bot)player).SecondDice);
+                ((BotAI)player).MakeTurn(1, CurrentBoard.Rows, out x, out y);
+                DrawTheDices(((BotAI)player).FirstDice, ((BotAI)player).SecondDice);
             }
             coordinateX = x;
             coordinateY = y;
