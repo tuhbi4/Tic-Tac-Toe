@@ -52,7 +52,7 @@ namespace TicTacToe
         public static int RequestBoardSize()
         {
             Console.WriteLine("\nPlease set the size of the field. The number must be positive and odd (mininum is: 3x3)");
-            var boardSize = ValueAndOddOfVariableValidation("board size", 3, 27); // 27 for 1280x1024, 43 for 1920x1080
+            var boardSize = ValueAndOddVariableValidation("board size", 3, 27); // 27 for 1280x1024, 43 for 1920x1080
             return boardSize;
         }
 
@@ -93,6 +93,22 @@ namespace TicTacToe
                 Console.WriteLine($"Your symbol is \"{playerTwoFigure}\".");
                 return true;
             }
+        }
+
+        public static int RequestPlayersOrder(string playerOneName, string playerTwoName)
+        {
+            int modeSelector;
+            Console.WriteLine("\nChoose who will do moves first:");
+            while (true)
+            {
+                Console.WriteLine($"Enter the number of your choice\n1. {playerOneName}\n2. {playerTwoName}\n3. Set randomly");
+                modeSelector = NumberValidation();
+                if (modeSelector == 1 || modeSelector == 2 || modeSelector == 3)
+                {
+                    break;
+                }
+            }
+            return modeSelector;
         }
     }
 }
