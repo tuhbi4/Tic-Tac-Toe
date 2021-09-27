@@ -29,6 +29,7 @@ namespace TicTacToe
         }
 
         private Field firstNeighbor;
+        private Field secondNeighbor;
         private readonly int maxX;
         private readonly int maxY;
         private bool alreadyFoundItInHorizontal;
@@ -122,7 +123,6 @@ namespace TicTacToe
             {
                 secondPossibleNeighborBehind = currentBoard.BoardMatrix[firstNeighbor.Y - 1, behindSearchedForX - 1];
             }
-
             if (secondPossibleNeighborAhead.Filler == searchFor.Filler
                 && !secondPossibleNeighborAhead.InHorizontalCombination)
             {
@@ -260,6 +260,7 @@ namespace TicTacToe
         {
             if (isSimulation)
             {
+                secondNeighbor = secondPossibleNeighbor;
                 neighbors.Add((direction, searchFor));
                 neighbors.Add((direction, firstNeighbor));
                 neighbors.Add((direction, secondPossibleNeighbor));
@@ -281,23 +282,48 @@ namespace TicTacToe
         /// <returns>The number of possible combinations</returns>
         public int SimulationCombinationsForEmptyFields(Board currentBoard, Player player)
         {
-            var simulationBoard = currentBoard.CloneBoardMatrix();
-            var countOfPossibleCombinations = 0;
-            ResetFields();
-            for (var y = 1; y <= maxY; y++)
+            var simulationBoard = currentBoard.CloneBoard();
+            var bestBoard = currentBoard.CloneBoard();
+            var possibleCombinationsCount = 0;
+            var remainingTurnsCount = player.RemainingTurnsCount;
+            while (remainingTurnsCount > 0)
             {
-                for (var x = 1; x <= maxX; x++)
+                var bestPossibleCombinationsCount = 0;
+                var IsBestBoardSaved = false;
+                remainingTurnsCount--;
+                ResetFields();
+                for (var y = 1; y <= maxY; y++)
                 {
-                    if (simulationBoard.BoardMatrix[y - 1, x - 1].Filler == simulationBoard.Filler)
+                    for (var x = 1; x <= maxX; x++)
                     {
-                        simulationBoard.BoardMatrix[y - 1, x - 1] = new(x, y, player.Figure);
-                        GetNewCombinationsCount(simulationBoard, x, y, true);
-                        countOfPossibleCombinations += neighbors.Count / 3;
-                        SetFieldsDirections();
+                        var nextSimulationBoard = simulationBoard.CloneBoard();
+                        if (nextSimulationBoard.BoardMatrix[y - 1, x - 1].Filler == nextSimulationBoard.Filler)
+                        {
+                            nextSimulationBoard.BoardMatrix[y - 1, x - 1] = new(x, y, player.Figure);
+                            GetNewCombinationsCount(nextSimulationBoard, x, y, true);
+                            SetFieldsDirections();
+                            if (bestPossibleCombinationsCount < neighbors.Count / 3)
+                            {
+                                bestPossibleCombinationsCount = neighbors.Count / 3;
+                                bestBoard = nextSimulationBoard.CloneBoard();
+                                IsBestBoardSaved = true;
+                            }
+                            else if (secondNeighbor.Filler == player.Figure && !IsBestBoardSaved)
+                            {
+                                bestBoard = nextSimulationBoard.CloneBoard();
+                                IsBestBoardSaved = true;
+                            }
+                            else if (firstNeighbor.Filler == player.Figure && !IsBestBoardSaved)
+                            {
+                                bestBoard = nextSimulationBoard.CloneBoard();
+                            }
+                        }
                     }
                 }
+                possibleCombinationsCount += bestPossibleCombinationsCount;
+                simulationBoard = bestBoard;
             }
-            return countOfPossibleCombinations;
+            return possibleCombinationsCount;
         }
 
         /// <summary>
@@ -333,6 +359,7 @@ namespace TicTacToe
         private void ResetFields()
         {
             firstNeighbor = new();
+            secondNeighbor = new();
             alreadyFoundItInHorizontal = false;
             alreadyFoundItInVertical = false;
             alreadyFoundItInLeftDiagonal = false;

@@ -50,9 +50,9 @@ namespace TicTacToe
         }
 
         /// <summary>
-        /// Decreases the count of remaining turns.
+        /// Decrement the count of remaining turns.
         /// </summary>
-        public void DecreaseRemainingTurnsCount()
+        public void DecrementRemainingTurnsCount()
         {
             if (RemainingTurnsCount > 0)
             {

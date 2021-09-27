@@ -97,18 +97,18 @@ namespace TicTacToe
                 PlayerTwoFigure = temp;
             }
             var possibleTurnsCount = CurrentBoard.EmptyCellsCount / 2;
-            Players.Add(new Player(playerOneName, PlayerOneFigure, possibleTurnsCount));
+            Players.Add(new Player(playerOneName, PlayerOneFigure, possibleTurnsCount + 1));
             if (GameMode.Equals(GameModes.PlayerVsPlayer))
             {
                 var playerTwoName = RequestName("Player 2");
-                Players.Add(new Player(playerTwoName, PlayerTwoFigure, possibleTurnsCount - 1));
+                Players.Add(new Player(playerTwoName, PlayerTwoFigure, possibleTurnsCount));
             }
             else if (GameMode.Equals(GameModes.PlayerVsComputer))
             {
                 MessageIfOpponentIsBot();
                 if (Players[0].Figure.Equals(PlayerOneFigure))
                 {
-                    Players.Add(new Bot("Computer", PlayerTwoFigure, possibleTurnsCount - 1));
+                    Players.Add(new Bot("Computer", PlayerTwoFigure, possibleTurnsCount));
                 }
                 else
                 {
@@ -167,24 +167,26 @@ namespace TicTacToe
                 if (!GameOver)
                 {
                     MessageWhoseTurn(player.Name);
-                    var possibleCombinationsCount = Combinator.SimulationCombinationsForEmptyFields(CurrentBoard, player);
-                    player.SetPossibleCombinationsCount(possibleCombinationsCount);
-                    CheckGameOver(player);
                     FlagTheField(player, out int coordinateX, out int coordinateY);
+                    player.DecrementRemainingTurnsCount();
                     DrawBoardInConsole(CurrentBoard, true);
-                    var currentCombinationsCount = player.CombinationsMadeCount;
                     var combinationsFoundedCount = Combinator.GetNewCombinationsCount(CurrentBoard, coordinateX, coordinateY, false);
                     if (combinationsFoundedCount > 0)
                     {
                         MessageNewCombinationsCount(combinationsFoundedCount);
-                    }
-                    player.IncreaseCombinationMadeCount(combinationsFoundedCount);
-                    SetFieldsDirections(Combinator);
-                    if (player.CombinationsMadeCount > currentCombinationsCount)
-                    {
+                        player.IncreaseCombinationMadeCount(combinationsFoundedCount);
                         MessageAbountPlayerCombinations(player.Name, player.CombinationsMadeCount);
+                        SetFieldsDirections(Combinator);
                     }
-                    CheckGameOver(player);
+                    foreach (var person in Players)
+                    {
+                        if (CurrentBoard.EmptyCellsCount <= CurrentBoard.BoardMatrix.Length - 2)
+                        {
+                            var possibleCombinationsCount = Combinator.SimulationCombinationsForEmptyFields(CurrentBoard, person);
+                            person.SetPossibleCombinationsCount(possibleCombinationsCount);
+                            CheckGameOver(person);
+                        }
+                    }
                 }
             }
         }
