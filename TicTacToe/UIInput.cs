@@ -26,6 +26,26 @@ namespace TicTacToe
         }
 
         /// <summary>
+        /// Provides the user with a choice of bot difficulty level.
+        /// </summary>
+        /// <returns>32-bit signed integer equivalent to user choise.</returns>
+        public static int RequestBotLevel()
+        {
+            int modeSelector;
+            Console.WriteLine("Select bot level:");
+            while (true)
+            {
+                Console.WriteLine("Enter the number of your choice\n1. Easy\n2. Middle");
+                modeSelector = NumberValidation();
+                if (modeSelector == 1 || modeSelector == 2)
+                {
+                    break;
+                }
+            }
+            return modeSelector;
+        }
+
+        /// <summary>
         /// Provides the user with a choice of board size.
         /// </summary>
         /// <returns>32-bit signed integer equivalent to user choise.</returns>

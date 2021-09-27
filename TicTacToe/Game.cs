@@ -36,8 +36,15 @@ namespace TicTacToe
             PlayerVsPlayer = 1,
             PlayerVsComputer
         };
+        public enum BotsLevels
+        {
+            Random = 1,
+            Thinking,
+            Analyzing
+        };
 
         public GameModes GameMode { get; private set; }
+        public BotsLevels BotLevel { get; private set; }
         public string EmptyFieldFigure { get; private set; }
         public string PlayerOneFigure { get; private set; }
         public string PlayerTwoFigure { get; private set; }
@@ -78,6 +85,10 @@ namespace TicTacToe
         {
             PrintLogo();
             GameMode = (GameModes)RequestGameMode();
+            if (GameMode == GameModes.PlayerVsComputer)
+            {
+                BotLevel = (BotsLevels)RequestBotLevel();
+            }
             CurrentBoard = new Board(RequestBoardSize(), emptyFieldFigure);
             Combinator = new(CurrentBoard);
             DefinePlayersList();
@@ -106,13 +117,27 @@ namespace TicTacToe
             else if (GameMode.Equals(GameModes.PlayerVsComputer))
             {
                 MessageIfOpponentIsBot();
-                if (Players[0].Figure.Equals(PlayerOneFigure))
+                if (BotLevel.Equals(BotsLevels.Random))
                 {
-                    Players.Add(new Bot("Computer", PlayerTwoFigure, possibleTurnsCount));
+                    if (Players[0].Figure.Equals(PlayerOneFigure))
+                    {
+                        Players.Add(new Bot("Computer", PlayerTwoFigure, possibleTurnsCount));
+                    }
+                    else
+                    {
+                        Players.Add(new Bot("Computer", PlayerOneFigure, possibleTurnsCount));
+                    }
                 }
-                else
+                else if (BotLevel.Equals(BotsLevels.Thinking))
                 {
-                    Players.Add(new Bot("Computer", PlayerOneFigure, possibleTurnsCount - 1));
+                    if (Players[0].Figure.Equals(PlayerOneFigure))
+                    {
+                        Players.Add(new BotAI("Computer", PlayerTwoFigure, possibleTurnsCount));
+                    }
+                    else
+                    {
+                        Players.Add(new BotAI("Computer", PlayerOneFigure, possibleTurnsCount));
+                    }
                 }
             }
         }
@@ -205,8 +230,16 @@ namespace TicTacToe
         /// </summary>
         private void ComputerTurn(Player player, out int coordinateX, out int coordinateY)
         {
-            ((Bot)player).MakeTurn(1, CurrentBoard.Rows, out int x, out int y);
-            DrawTheDices(((Bot)player).FirstDice, ((Bot)player).SecondDice);
+            int x = 0;
+            int y = 0;
+            if (BotLevel.Equals(BotsLevels.Random))
+            {
+                ((Bot)player).MakeTurn(1, CurrentBoard.Rows, out x, out y);
+            }
+            else if (BotLevel.Equals(BotsLevels.Thinking))
+            {
+                DrawTheDices(((Bot)player).FirstDice, ((Bot)player).SecondDice);
+            }
             coordinateX = x;
             coordinateY = y;
         }
@@ -227,7 +260,7 @@ namespace TicTacToe
                 {
                     PlayerTurn(out coordinateX, out coordinateY);
                 }
-                else if (player.GetType() == typeof(Bot))
+                else if (player.GetType() == typeof(Bot) || player.GetType() == typeof(BotAI))
                 {
                     ComputerTurn(player, out coordinateX, out coordinateY);
                     MessageBotMadeTurn(player.Name);
