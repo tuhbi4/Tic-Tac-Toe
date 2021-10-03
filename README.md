@@ -31,7 +31,7 @@ Console game "TicTacToe"
 - [X] Manual testing
 - [X] Test coverage
 - [X] Documentation
-- [ ] [merge requests]
+- [X] Merge request
 
 [:arrow_up_small:](#tic-tac-toe)
 
