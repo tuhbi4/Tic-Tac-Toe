@@ -73,7 +73,7 @@
         /// Creates a copy of the board.
         /// </summary>
         /// <returns>Returns a new board.</returns>
-        public Board CloneBoardMatrix()
+        public Board CloneBoard()
         {
             Board newBoard = new(this.BoardMatrix.GetUpperBound(0) + 1, this.Filler);
             for (var i = 0; i <= BoardMatrix.GetUpperBound(0); i++)

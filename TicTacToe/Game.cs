@@ -36,8 +36,15 @@ namespace TicTacToe
             PlayerVsPlayer = 1,
             PlayerVsComputer
         };
+        public enum BotsLevels
+        {
+            Random = 1,
+            Thinking,
+            Analyzing
+        };
 
         public GameModes GameMode { get; private set; }
+        public BotsLevels BotLevel { get; private set; }
         public string EmptyFieldFigure { get; private set; }
         public string PlayerOneFigure { get; private set; }
         public string PlayerTwoFigure { get; private set; }
@@ -78,9 +85,14 @@ namespace TicTacToe
         {
             PrintLogo();
             GameMode = (GameModes)RequestGameMode();
-            DefinePlayersList();
+            if (GameMode == GameModes.PlayerVsComputer)
+            {
+                BotLevel = (BotsLevels)RequestBotLevel();
+            }
             CurrentBoard = new Board(RequestBoardSize(), emptyFieldFigure);
             Combinator = new(CurrentBoard);
+            DefinePlayersList();
+            DefinePlayersOrder();
         }
 
         /// <summary>
@@ -95,24 +107,60 @@ namespace TicTacToe
                 PlayerOneFigure = PlayerTwoFigure;
                 PlayerTwoFigure = temp;
             }
-            Players.Add(new Player(playerOneName, PlayerOneFigure));
+            var possibleTurnsCount = CurrentBoard.EmptyCellsCount / 2;
+            Players.Add(new Player(playerOneName, PlayerOneFigure, possibleTurnsCount + 1));
             if (GameMode.Equals(GameModes.PlayerVsPlayer))
             {
                 var playerTwoName = RequestName("Player 2");
-                Players.Add(new Player(playerTwoName, PlayerTwoFigure));
+                Players.Add(new Player(playerTwoName, PlayerTwoFigure, possibleTurnsCount));
             }
             else if (GameMode.Equals(GameModes.PlayerVsComputer))
             {
                 MessageIfOpponentIsBot();
-                if (Players[0].Figure.Equals(PlayerOneFigure))
+                if (BotLevel.Equals(BotsLevels.Random))
                 {
-                    Players.Add(new Bot("Computer", PlayerTwoFigure));
+                    if (Players[0].Figure.Equals(PlayerOneFigure))
+                    {
+                        Players.Add(new Bot("Computer", PlayerTwoFigure, possibleTurnsCount));
+                    }
+                    else
+                    {
+                        Players.Add(new Bot("Computer", PlayerOneFigure, possibleTurnsCount));
+                    }
                 }
-                else
+                else if (BotLevel.Equals(BotsLevels.Thinking))
                 {
-                    Players.Add(new Bot("Computer", PlayerOneFigure));
+                    if (Players[0].Figure.Equals(PlayerOneFigure))
+                    {
+                        Players.Add(new BotAI("Computer", PlayerTwoFigure, possibleTurnsCount));
+                    }
+                    else
+                    {
+                        Players.Add(new BotAI("Computer", PlayerOneFigure, possibleTurnsCount));
+                    }
                 }
             }
+        }
+
+        private void DefinePlayersOrder()
+        {
+            switch (RequestPlayersOrder(Players[0].Name, Players[1].Name))
+            {
+                case 2:
+                    Players.Reverse();
+                    break;
+                case 3:
+                    Random random = new();
+                    var number = random.Next(1, Players.Count);
+                    MakeFirst(number);
+                    break;
+            }
+        }
+
+        private void MakeFirst(int number)
+        {
+            Players.Insert(0, Players[number]);
+            Players.RemoveAt(number + 1);
         }
 
         /// <summary>
@@ -145,22 +193,25 @@ namespace TicTacToe
                 {
                     MessageWhoseTurn(player.Name);
                     FlagTheField(player, out int coordinateX, out int coordinateY);
+                    player.DecrementRemainingTurnsCount();
                     DrawBoardInConsole(CurrentBoard, true);
-                    var currentCountOfCombinations = player.CountOfCombinationsMade;
-                    var numberOfCombinationsFounded = Combinator.GetCountOfNewCombinations(CurrentBoard, coordinateX, coordinateY, false);
-                    if (numberOfCombinationsFounded > 0)
+                    var combinationsFoundedCount = Combinator.GetNewCombinationsCount(CurrentBoard, coordinateX, coordinateY, false);
+                    if (combinationsFoundedCount > 0)
                     {
-                        MessageNewCombinationsCount(numberOfCombinationsFounded);
+                        MessageNewCombinationsCount(combinationsFoundedCount);
+                        player.IncreaseCombinationMadeCount(combinationsFoundedCount);
+                        MessageAbountPlayerCombinations(player.Name, player.CombinationsMadeCount);
+                        SetFieldsDirections(Combinator);
                     }
-                    player.IncreaseCountOfCombinationMade(numberOfCombinationsFounded);
-                    SetFieldsDirections(Combinator);
-                    if (player.CountOfCombinationsMade > currentCountOfCombinations)
+                    foreach (var person in Players)
                     {
-                        MessageAbountPlayerCombinations(player.Name, player.CountOfCombinationsMade);
+                        if (CurrentBoard.EmptyCellsCount <= CurrentBoard.BoardMatrix.Length - 2)
+                        {
+                            var possibleCombinationsCount = Combinator.SimulationCombinationsForEmptyFields(CurrentBoard, person);
+                            person.SetPossibleCombinationsCount(possibleCombinationsCount);
+                            CheckGameOver(person);
+                        }
                     }
-                    var countOfPossibleCombinations = Combinator.SimulationCombinationsForEmptyFields(CurrentBoard, player);
-                    player.IncreaseCountOfPossibleCombinations(countOfPossibleCombinations);
-                    CheckGameOver(player);
                 }
             }
         }
@@ -179,8 +230,18 @@ namespace TicTacToe
         /// </summary>
         private void ComputerTurn(Player player, out int coordinateX, out int coordinateY)
         {
-            ((Bot)player).MakeTurn(1, CurrentBoard.Rows, out int x, out int y);
-            DrawTheDices(((Bot)player).FirstDice, ((Bot)player).SecondDice);
+            int x = 0;
+            int y = 0;
+            if (BotLevel.Equals(BotsLevels.Random))
+            {
+                ((Bot)player).MakeTurn(1, CurrentBoard.Rows, out x, out y);
+                DrawTheDices(((Bot)player).FirstDice, ((Bot)player).SecondDice);
+            }
+            else if (BotLevel.Equals(BotsLevels.Thinking))
+            {
+                ((BotAI)player).MakeTurn(1, CurrentBoard.Rows, out x, out y);
+                DrawTheDices(((BotAI)player).FirstDice, ((BotAI)player).SecondDice);
+            }
             coordinateX = x;
             coordinateY = y;
         }
@@ -201,7 +262,7 @@ namespace TicTacToe
                 {
                     PlayerTurn(out coordinateX, out coordinateY);
                 }
-                else if (player.GetType() == typeof(Bot))
+                else if (player.GetType() == typeof(Bot) || player.GetType() == typeof(BotAI))
                 {
                     ComputerTurn(player, out coordinateX, out coordinateY);
                     MessageBotMadeTurn(player.Name);
@@ -233,19 +294,19 @@ namespace TicTacToe
         /// otherwise, false</returns>
         private void CheckGameOver(Player player)
         {
-            if (player.CountOfPossibleCombinations == 0)
+            if (player.PossibleCombinationsCount == 0)
             {
                 MessageThatNoMoreCombinationsPossible(player.Name);
                 GameOver = true;
                 SetWinner();
             }
-            else if (Players[0].CountOfCombinationsMade - Players[1].CountOfCombinationsMade > Players[1].CountOfPossibleCombinations)
+            else if (Players[0].CombinationsMadeCount - Players[1].CombinationsMadeCount > Players[1].PossibleCombinationsCount)
             {
                 MessageThatNoChanseToWin(Players[1].Name);
                 GameOver = true;
                 SetWinner();
             }
-            else if (Players[1].CountOfCombinationsMade - Players[0].CountOfCombinationsMade > Players[0].CountOfPossibleCombinations)
+            else if (Players[1].CombinationsMadeCount - Players[0].CombinationsMadeCount > Players[0].PossibleCombinationsCount)
             {
                 MessageThatNoChanseToWin(Players[0].Name);
                 GameOver = true;
@@ -264,10 +325,10 @@ namespace TicTacToe
         /// </summary>
         private void SetWinner()
         {
-            MessageWithScores(Players[0].Name, Players[0].CountOfCombinationsMade, Players[1].Name, Players[1].CountOfCombinationsMade);
-            if (Players[0].CountOfCombinationsMade != Players[1].CountOfCombinationsMade)
+            MessageWithScores(Players[0].Name, Players[0].CombinationsMadeCount, Players[1].Name, Players[1].CombinationsMadeCount);
+            if (Players[0].CombinationsMadeCount != Players[1].CombinationsMadeCount)
             {
-                if (Players[0].CountOfCombinationsMade > Players[1].CountOfCombinationsMade)
+                if (Players[0].CombinationsMadeCount > Players[1].CombinationsMadeCount)
                 {
                     Winner = Players[0].Name;
                 }
@@ -289,7 +350,7 @@ namespace TicTacToe
             }
             else
             {
-                if (Players[0].CountOfCombinationsMade != 0)
+                if (Players[0].CombinationsMadeCount != 0)
                 {
                     MessageIsDraw();
                 }

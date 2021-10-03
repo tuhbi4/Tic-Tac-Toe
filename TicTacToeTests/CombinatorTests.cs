@@ -36,7 +36,7 @@ namespace TicTacToe.Tests
                 currentBoard.BoardMatrix[0, 2].SetInHorizontalCombination();
             }
             Combinator combinator = new(currentBoard);
-            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            int result = combinator.GetNewCombinationsCount(currentBoard, x, y, false);
             return result;
         }
 
@@ -71,7 +71,7 @@ namespace TicTacToe.Tests
                 currentBoard.BoardMatrix[2, 0].SetInVerticalCombination();
             }
             Combinator combinator = new(currentBoard);
-            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            int result = combinator.GetNewCombinationsCount(currentBoard, x, y, false);
             return result;
         }
 
@@ -106,7 +106,7 @@ namespace TicTacToe.Tests
                 currentBoard.BoardMatrix[2, 2].SetInLeftDiagonalCombination();
             }
             Combinator combinator = new(currentBoard);
-            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            int result = combinator.GetNewCombinationsCount(currentBoard, x, y, false);
             return result;
         }
 
@@ -141,7 +141,7 @@ namespace TicTacToe.Tests
                 currentBoard.BoardMatrix[2, 0].SetInRightDiagonalCombination();
             }
             Combinator combinator = new(currentBoard);
-            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            int result = combinator.GetNewCombinationsCount(currentBoard, x, y, false);
             return result;
         }
 
@@ -159,7 +159,7 @@ namespace TicTacToe.Tests
             currentBoard.BoardMatrix[4, 0].SetInVerticalCombination();
             currentBoard.BoardMatrix[3, 0] = new Field(1, 4, "X");
             Combinator combinator = new(currentBoard);
-            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            int result = combinator.GetNewCombinationsCount(currentBoard, x, y, false);
             return result;
         }
 
@@ -177,7 +177,7 @@ namespace TicTacToe.Tests
             currentBoard.BoardMatrix[0, 4] = new Field(5, 1, "X");
             currentBoard.BoardMatrix[2, 2] = new Field(3, 3, "X");
             Combinator combinator = new(currentBoard);
-            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            int result = combinator.GetNewCombinationsCount(currentBoard, x, y, false);
             return result;
         }
 
@@ -204,7 +204,7 @@ namespace TicTacToe.Tests
             currentBoard.BoardMatrix[3, 2] = new Field(3, 4, "X");
             currentBoard.BoardMatrix[1, 2] = new Field(3, 2, "X");
             Combinator combinator = new(currentBoard);
-            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            int result = combinator.GetNewCombinationsCount(currentBoard, x, y, false);
             return result;
         }
 
@@ -227,7 +227,7 @@ namespace TicTacToe.Tests
             currentBoard.BoardMatrix[1, 1] = new Field(2, 2, "X");
             currentBoard.BoardMatrix[2, 2] = new Field(3, 3, "X");
             Combinator combinator = new(currentBoard);
-            int result = combinator.GetCountOfNewCombinations(currentBoard, x, y, false);
+            int result = combinator.GetNewCombinationsCount(currentBoard, x, y, false);
             return result;
         }
     }
