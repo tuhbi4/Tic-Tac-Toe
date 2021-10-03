@@ -3,6 +3,39 @@
 Console game "TicTacToe"
 
 ***
+## Project status
+
+![](https://img.shields.io/badge/build-success-success)
+![](https://img.shields.io/badge/algorithm%20completed-99%25-brightgreen)
+![](https://img.shields.io/badge/documentation-99%25-brightgreen)
+![](https://img.shields.io/badge/manual%20testing-success-brightgreen)
+![](https://img.shields.io/badge/coverage%20-50%25-critical)
+***
+
+## Roadmap
+
+- [X] Menu implemented
+- [X] Data entry implemented
+- [X] Input data validation is implemented
+- [X] The graphic part is fully implemented
+- [X] Players implemented
+- [X] Board implemented
+- [X] Bot implemented
+- [X] The game starts successfully
+- [X] The move loop works successfully
+- [X] The fields are filled in successfully
+- [X] The state of the fields is monitored
+- [X] Search for combinations is organized
+- [X] End of game conditions are checked
+- [X] The game ends successfully
+- [X] Manual testing
+- [X] Test coverage
+- [X] Documentation
+- [ ] [merge requests]
+
+[:arrow_up_small:](#tic-tac-toe)
+
+***
 
 ## Task description ##
 
@@ -19,19 +52,6 @@ After the participant reaches the number of combinations in which the opponent c
 
 ![Scheme](task.png)
 
+[:arrow_up_small:](#tic-tac-toe)
 ***
 
-## Project status
-
-Project at the stage of algorithm development
-
-## Roadmap
-
-- [ ] [] [Program.cs](TicTacToe/Program.cs#L1)
-- [ ] []
-- [ ] []
-- [ ] []
-- [ ] []
-- [ ] [request](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [merge requests](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [succeeds](https://gitlab.com/-/experiment/new_project_readme_content:749681a99ec50baf7f5d1fc12b60ff54?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
